@@ -100,7 +100,10 @@ public class Solution {
 
                 ret = usersolution.dfs(K);
 
-                if(ret != ans) score = 0;
+                if(ret != ans) {
+                    System.out.print("                  " + K + "             ");
+                    score = 0;
+                }
             }
 
             System.out.println("#" + tc + " : " + score);
