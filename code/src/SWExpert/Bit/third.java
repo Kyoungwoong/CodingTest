@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class third {
     private static int tc, MOD = 1000000007, ans;

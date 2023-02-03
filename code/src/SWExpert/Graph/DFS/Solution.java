@@ -1,4 +1,4 @@
-package SWExpert.DFS;
+package SWExpert.Graph.DFS;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

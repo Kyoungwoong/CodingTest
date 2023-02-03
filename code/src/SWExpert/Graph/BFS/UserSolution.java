@@ -1,7 +1,4 @@
-package SWExpert.BFS;
-
-import java.util.Queue;
-import java.util.LinkedList;
+package SWExpert.Graph.BFS;
 
 class UserSolution {
 

@@ -1,4 +1,4 @@
-package SWExpert.DFS;
+package SWExpert.Graph.DFS;
 
 import java.util.*;
 import java.io.*;

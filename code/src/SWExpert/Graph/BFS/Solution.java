@@ -1,4 +1,4 @@
-package SWExpert.BFS;
+package SWExpert.Graph.BFS;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
