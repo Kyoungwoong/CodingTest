@@ -150,6 +150,5 @@ Temporary Items
 # End of https://www.toptal.com/developers/gitignore/api/macos,intellij
 
 # TestCase
-./code/SW_Testcase
-./code/out
-./code/out
+.code/SW_Testcase
+.code/out
