@@ -152,3 +152,9 @@ Temporary Items
 # TestCase
 code/SW_Testcase
 code/out
+
+.idea/
+CodingTest.iml
+.DS_Store
+code/.DS_Store
+code/src/CodeTree/.DS_Store
