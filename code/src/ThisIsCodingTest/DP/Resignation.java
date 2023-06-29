@@ -30,23 +30,19 @@ public class Resignation {
             schedule[i] = new Counseling(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
         }
 
-        int maxValue = 0;
-        for (int i = N-1; i >= 0; i--) {
-            int time = schedule[i].during + i;
-            if (time <= N) {
-                dp[i] = Math.max(schedule[i].pay + dp[time], maxValue);
-                maxValue = dp[i];
+        // i번째 날부터 N번째 날까지 가질 수 있는 이익.
+        int maxPay = 0;
+        for (int i = N - 1; i >= 0; i--) {
+            int endDay = schedule[i].during + i;
+
+            if (endDay <= N) {
+                dp[i] = Math.max(schedule[i].pay + dp[endDay], maxPay);
+                maxPay = dp[i];
             }else{
-                dp[i] = maxValue;
+                dp[i] = maxPay;
             }
         }
-
-        for (int i = 0; i <= N; i++) {
-            System.out.print(dp[i] + " ");
-        }
-        System.out.println();
-        System.out.println(maxValue);
-
+        System.out.println(maxPay);
     }
 }
 /*
