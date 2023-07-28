@@ -74,13 +74,13 @@ public class Infection {
         for (int i = 1; i <= S; i++) {
             visited = new boolean[N][N];
             Infect(i);
-            for(int k = 0; k < N; k++){
-                for(int j = 0; j < N; j++){
-                    System.out.print(board[k][j].type + " ");
-                }
-                System.out.println();
-            }
-            System.out.println();
+//            for(int k = 0; k < N; k++){
+//                for(int j = 0; j < N; j++){
+//                    System.out.print(board[k][j].type + " ");
+//                }
+//                System.out.println();
+//            }
+//            System.out.println();
         }
 
 

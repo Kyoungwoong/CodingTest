@@ -45,7 +45,11 @@ public class Miro {
     public static void init(int x, int y, int s){
         q.add(new Pair(x, y));
         visited[x][y] = true;
-        step[x][y] = s;
+        if (step[x][y] != 0) {
+            step[x][y] = Math.min(step[x][y], s);
+        }else{
+            step[x][y] = s;
+        }
     }
 
     public static void main(String[] args) throws IOException {
@@ -79,4 +83,5 @@ public class Miro {
 000001
 111111
 111111
+--- 10
  */

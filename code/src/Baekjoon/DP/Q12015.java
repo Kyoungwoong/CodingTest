@@ -10,40 +10,50 @@ public class Q12015 {
     static int INF = Integer.MIN_VALUE;
 
     public static int binarySearch(int s, int e, int target) {
-        while (s < e) {
-            int mid = (s + e) / 2;
-            if (memo[mid] > target) {
-                s = mid + 1;
+        int lo = 0;
+        int hi = e;
+        while (lo < hi) {
+            int mid = (lo + hi) / 2;
+
+            if(memo[mid] < target) {
+                lo = mid + 1;
             } else {
-                e = mid;
+                hi = mid;
             }
         }
-        return s;
+        return lo;
     }
 
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
-        int[] arr = new int[n];
-
-        StringTokenizer st= new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(br.readLine());
+        int[] seq = new int[N];
+        memo = new int[N];
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        for (int i = 0; i < N; i++) {
+            seq[i] = Integer.parseInt(st.nextToken());
         }
 
-        memo = new int[n+1];
-        int memo_idx = 0;
-        int idx = 0;
-        for (int i = 0; i < n; i++) {
-            if (arr[i] > memo[memo_idx]) {
-                memo_idx++;
-                memo[memo_idx] = arr[i];
-            } else {
-                idx = binarySearch(0, memo_idx, arr[i]);
-                memo[idx] = arr[i];
+        memo[0] = seq[0];
+        int lengthOfLIS = 1;
+
+        for (int i = 1; i < N; i++) {
+            int key = seq[i];
+
+            if (memo[lengthOfLIS - 1] < key) {
+                lengthOfLIS++;
+                memo[lengthOfLIS - 1] = key;
             }
-        }
+            else {
+                int lo = binarySearch(0, lengthOfLIS, key);
+                memo[lo] = key;
+            }
 
-        System.out.println(memo_idx);
+        }
+        System.out.println(lengthOfLIS);
     }
 }
+/*
+5
+30 40 50 20 40
+ */

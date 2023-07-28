@@ -16,23 +16,10 @@ public class FixedDijkstra {
     // 각 노드에 연결되어 있는 노드에 대한 정보를 담는 배열
     public static ArrayList<ArrayList<Node>> graph = new ArrayList<ArrayList<Node>>();
     // 방문한 적이 있는지 체크하는 목적의 배열 만들기
-    public static boolean[] visited = new boolean[100001];
     // 최단 거리 테이블 만들기
     public static int[] d = new int[100001];
 
     public static PriorityQueue<Node> pq = new PriorityQueue<>();
-
-    public static int get_smallest_node(){
-        int min_value = INF;
-        int min_idx = 100002;
-        for(int i = 1; i <= N; i++){
-            if(d[i] < min_value && !visited[i]){
-                min_value = d[i];
-                min_idx = i;
-            }
-        }
-        return min_idx;
-    }
 
     public static void dijkstra(int start){
         d[start] = 0;
@@ -45,6 +32,7 @@ public class FixedDijkstra {
             int dist = now.distance;
             int idx = now.index;
 
+            // 방문한 적 있는지 체크
             if(d[idx] < dist){
                 continue;
             }

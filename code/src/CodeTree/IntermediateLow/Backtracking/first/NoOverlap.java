@@ -7,16 +7,16 @@ import java.util.StringTokenizer;
 import java.util.ArrayList;
 import java.util.Collections;
 
-class Pair implements Comparable<Pair>{
+class N_Pair implements Comparable<N_Pair>{
     int x1, x2;
 
-    public Pair(int x1, int x2) {
+    public N_Pair(int x1, int x2) {
         this.x1 = x1;
         this.x2 = x2;
     }
 
     @Override
-    public int compareTo(Pair pair){
+    public int compareTo(N_Pair pair){
         if(pair.x1 < x1){
             return 1;
         }else if(pair.x1 == x1) {
@@ -30,8 +30,8 @@ class Pair implements Comparable<Pair>{
 public class NoOverlap{
     private static int n, count = 0;
     private static int[] arr= new int[1001];
-    private static ArrayList<Pair> line = new ArrayList<>();
-    private static ArrayList<Pair> std = new ArrayList<>();
+    private static ArrayList<N_Pair> line = new ArrayList<>();
+    private static ArrayList<N_Pair> std = new ArrayList<>();
 
     public static int calc(){
         int cnt = 0;
@@ -74,7 +74,7 @@ public class NoOverlap{
 
         // System.out.println(num);
 
-        std.add(new Pair(x1, x2));
+        std.add(new N_Pair(x1, x2));
         findMaxCount(num+1);
         std.remove(std.size()-1);
         findMaxCount(num+1);
@@ -88,7 +88,7 @@ public class NoOverlap{
 
         for(int i = 0; i < n; i++){
             StringTokenizer st = new StringTokenizer(br.readLine());
-            line.add(new Pair(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
+            line.add(new N_Pair(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
         }
 
         Collections.sort(line);

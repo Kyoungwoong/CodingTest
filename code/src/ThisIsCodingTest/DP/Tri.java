@@ -14,13 +14,11 @@ public class Tri {
         n = Integer.parseInt(br.readLine());
         pascal = new int[n][n];
 
-        int idx = 0;
         for (int i = 0; i < n; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-            for (int j = 0; j <= idx; j++) {
+            for (int j = 0; j <= i; j++) {
                 pascal[i][j] = Integer.parseInt(st.nextToken());
             }
-            idx++;
         }
 
         int[][] result = new int[n][n];
@@ -36,12 +34,10 @@ public class Tri {
         }
 
         // mid
-        idx = 2;
         for (int i = 2; i < n; i++) {
-            for (int j = 1; j < idx; j++) {
+            for (int j = 1; j < i; j++) {
                 result[i][j] = pascal[i][j] + Math.max(result[i - 1][j - 1], result[i - 1][j]);
             }
-            idx++;
         }
 
         int max = -1;

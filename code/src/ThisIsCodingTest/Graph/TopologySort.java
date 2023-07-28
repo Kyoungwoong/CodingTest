@@ -13,7 +13,7 @@ public class TopologySort {
     public static int[] arr;
     public static boolean[] visited;
     public static Queue<Integer> q = new LinkedList<>();
-    public static ArrayList<ArrayList<Integer>> graph = new ArrayList<ArrayList<Integer>>();
+    public static ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
 
     public static void topology_sort(){
         while(!q.isEmpty()){

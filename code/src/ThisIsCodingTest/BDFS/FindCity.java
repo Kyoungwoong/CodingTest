@@ -30,49 +30,47 @@ public class FindCity {
         X = Integer.parseInt(st.nextToken())-1;
 
         graph = new ArrayList[N];
+        visited = new int[N];
+
         for(int i = 0 ; i < N; i++){
             graph[i] = new ArrayList<>();
+            visited[i] = -1;
         }
-        visited = new int[N];
+
 
         for(int i = 0; i < M; i++){
             st = new StringTokenizer(br.readLine());
             int s = Integer.parseInt(st.nextToken())-1;
             int e = Integer.parseInt(st.nextToken())-1;
             graph[s].add(e);
+//            graph[e].add(s);
         }
 
         Queue<Integer> q = new LinkedList<>();
         visited[X] = 0;
         for(int i = 0; i < graph[X].size(); i++){
             q.add(graph[X].get(i));
-            visited[graph[X].get(i)] = 1;
+            visited[graph[X].get(i)] = visited[X]+1;
         }
 
         while(!q.isEmpty()){
             int cur = q.poll();
             for(int i = 0; i < graph[cur].size(); i++){
-                if(visited[graph[cur].get(i)] != 0){
-                    continue;
+                if(visited[graph[cur].get(i)] == -1) {
+                    q.add(graph[cur].get(i));
+                    visited[graph[cur].get(i)] = visited[cur] + 1;
                 }
-                q.add(graph[cur].get(i));
-                visited[graph[cur].get(i)] = visited[cur] + 1;
             }
         }
 
-        ArrayList<Integer> arr = new ArrayList<>();
+        boolean check = false;
         for(int i = 0; i < N; i++){
             if(visited[i] == K){
-                arr.add(i+1);
+                System.out.println(i+1);
+                check = true;
             }
         }
-        if(arr.size() == 0){
-            System.out.println(-1);
-        }else{
-            for(int i = 0; i < arr.size(); i++){
-                System.out.println(arr.get(i));
-            }
-        }
+        if(!check) System.out.println(-1);
     }
 }
 /*

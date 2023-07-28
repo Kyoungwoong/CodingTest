@@ -53,7 +53,6 @@ public class Ice {
                 }
             }
         }
-        cnt++;
     }
 
     public static void dfs(int x, int y){
@@ -87,10 +86,17 @@ public class Ice {
 
         for(int i = 0; i < N; i++){
             for(int j = 0; j < M; j++){
-                if(!visited[i][j] && frame[i][j] == 0){
-                    // bfs
+                // 이전코드
+//                if(!visited[i][j] && frame[i][j] == 0){
+//                    // bfs
+////                    bfs(i, j);
+//                    // dfs
+//                    dfs(i, j);
+//                    cnt++;
+//                }
+                // 최적화 코드
+                if (canGo(i, j)) {
 //                    bfs(i, j);
-                    // dfs
                     dfs(i, j);
                     cnt++;
                 }
@@ -101,6 +107,13 @@ public class Ice {
 }
 
 /*
+4 5
+00110
+00011
+11111
+00000
+--- 3
+
 15 14
 00000111100000
 11111101111110
@@ -117,4 +130,5 @@ public class Ice {
 11111111110011
 11100011111111
 11100011111111
+--- 8
  */
