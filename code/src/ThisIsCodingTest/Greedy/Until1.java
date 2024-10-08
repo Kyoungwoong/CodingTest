@@ -7,8 +7,38 @@ import java.security.cert.TrustAnchor;
 import java.util.StringTokenizer;
 
 public class Until1 {
+//    25 5 // ans: 2
+//    25 3 // ans: 6
     public static int cnt = 0, N, K;
     public static void main(String[] args) throws IOException {
+//        prev();
+        oct8();
+    }
+
+    private static void oct8() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        K = Integer.parseInt(st.nextToken());
+
+        while (N != 1 && N >= K) {
+            if (N % K != 0) {
+                cnt += N % K;
+                N -= (N % K);
+            } else {
+                cnt++;
+                N /= K;
+            }
+        }
+
+        if (N != 1) {
+            cnt += (N - 1);
+        }
+
+        System.out.println("cnt = " + cnt);
+    }
+
+    private static void prev() throws IOException {
         // N에서 1을 뺀다
         // N을 K로 나눈다.
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

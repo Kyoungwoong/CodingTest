@@ -11,6 +11,27 @@ public class Change {
 
     public static void main(String[] args) throws IOException {
 
+//        prev();
+        Oct8();
+    }
+
+    private static void Oct8() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+
+        int[] coins = {500, 100, 50, 10};
+        int count = 0;
+        for (int coin : coins) {
+            count += (N / coin);
+            N %= coin;
+            if (N == 0) {
+                break;
+            }
+        }
+        System.out.println("count = " + count);
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         // 거스름 해줘야 하는 총액
         N = Integer.parseInt(br.readLine());
