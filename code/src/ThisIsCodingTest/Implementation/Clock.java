@@ -15,6 +15,30 @@ public class Clock {
     }
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        oct9();
+
+    }
+
+    private static void oct9() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+
+        int h = 0;
+        int ans = 0;
+        while (h <= n) {
+            if (h == 3 || h == 13 || h == 23) {
+                ans += 60 * 60; // 시에 3이 들어가 분 * 초
+            } else {
+                ans += ((3600 - 2025)); // 시가 3이 아닐 때 3이 들어가는거 여집합으로 구하기
+            }
+            System.out.println("if h: " + h + " => ans: " + ans);
+            h++;
+        }
+        System.out.println("ans = " + ans);
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         hour = Integer.parseInt(br.readLine());
 
@@ -54,6 +78,5 @@ public class Clock {
             }
         }
          */
-
     }
 }

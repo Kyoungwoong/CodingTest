@@ -6,6 +6,13 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Game {
+//    4 4
+//            1 1 0
+//            1 1 1 1
+//            1 0 0 1
+//            1 1 0 1
+//            1 1 1 1
+//    ans = 3
     public static int N, M, x, y, cmd;
     public static int[][] map = new int[50][50];
 
@@ -22,6 +29,66 @@ public class Game {
     }
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        oct9();
+    }
+
+    private static void oct9() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+
+        st = new StringTokenizer(br.readLine());
+        x = Integer.parseInt(st.nextToken());
+        y = Integer.parseInt(st.nextToken());
+        int dir = Integer.parseInt(st.nextToken());
+
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < M; j++) {
+                map[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        int[] dx = {-1, 0, 1, 0};
+        int[] dy = {0, 1, 0, -1};
+
+        int ans = 1;
+        map[0][0] = 2;
+        boolean flag = false;
+        while(true) {
+            flag = false;
+            for (int i = 0; i < 3; i++) {
+                dir = (dir - 1 + 4) % 4; // 0 => 3, 1 => 0, 2 => 1, 3 => 2
+                int nextX = x + dx[dir];
+                int nextY = y + dy[dir];
+                System.out.print("dir: " + dir + " (nextX, nextY) = " + "("+ nextX+", " + nextY+")");
+                if (canGo(nextX, nextY)) {
+                    System.out.println("\t YES");
+                    x = nextX;
+                    y = nextY;
+                    map[x][y] = 2;
+                    ans++;
+                    flag = true;
+                    break;
+                }
+                System.out.println();
+            }
+            if (!flag) {
+                // 0 => 2, 1 => 3, 2 => 0, 3 => 1
+                int opp = (dir + 2) % 4;
+                int nextX = x + dx[opp];
+                int nextY = y + dy[opp];
+                if (isRange(nextX, nextY) && map[nextX][nextY] == 1) {
+                    break;
+                }
+            }
+        }
+        System.out.println("ans = " + ans);
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
@@ -74,8 +141,6 @@ public class Game {
             }
         }
         System.out.println("ans = " + ans);
-
-
     }
 }
 

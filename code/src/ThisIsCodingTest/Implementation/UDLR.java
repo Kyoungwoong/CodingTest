@@ -7,14 +7,25 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 public class UDLR {
-    // Up Down Left Right
+
+//    5
+//    R R R U D D // ans: 3, 4
     public static int N;
 
     public static enum DIR {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT
+        U(2),
+        D(3),
+        L(0),
+        R(1);
+        private int dir;
+
+        DIR(int dir) {
+            this.dir = dir;
+        }
+
+        public int getDir() {
+            return dir;
+        }
     }
 
     public static boolean isRange(int x, int y){
@@ -30,6 +41,35 @@ public class UDLR {
     }
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        oct9();
+    }
+
+    private static void oct9() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        int x = 1, y = 1;
+        st = new StringTokenizer(br.readLine());
+        int[] dirX = {0, 0, -1, 1};
+        int[] dirY = {-1, 1, 0, 0};
+
+        while (st.hasMoreTokens()) {
+            String move = st.nextToken();
+            DIR dir = DIR.valueOf(move);
+            int nextX = x + dirX[dir.getDir()];
+            int nextY = y + dirY[dir.getDir()];
+
+            if (isRange(nextX, nextY)) {
+                x = nextX;
+                y = nextY;
+            }
+        }
+
+        System.out.println("(x, y) = (" + x + ", " + y + ")");
+    };
+
+    private static void prev() {
         // (1,1)의 위치에서 어디로 가는지
 //        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 //        N = Integer.parseInt(br.readLine());
@@ -55,32 +95,32 @@ public class UDLR {
             switch (plans[i]){
 
                 case "U":
-                    nextX = x + dx[DIR.UP.ordinal()];
-                    nextY = y + dy[DIR.UP.ordinal()];
+                    nextX = x + dx[DIR.U.ordinal()];
+                    nextY = y + dy[DIR.U.ordinal()];
                     if(canGo(nextX, nextY)){
                         x = nextX;
                         y = nextY;
                     }
                     break;
                 case "D":
-                    nextX = x + dx[DIR.DOWN.ordinal()];
-                    nextY = y + dy[DIR.DOWN.ordinal()];
+                    nextX = x + dx[DIR.D.ordinal()];
+                    nextY = y + dy[DIR.D.ordinal()];
                     if(canGo(nextX, nextY)){
                         x = nextX;
                         y = nextY;
                     }
                     break;
                 case "L":
-                    nextX = x + dx[DIR.LEFT.ordinal()];
-                    nextY = y + dy[DIR.LEFT.ordinal()];
+                    nextX = x + dx[DIR.L.ordinal()];
+                    nextY = y + dy[DIR.L.ordinal()];
                     if(canGo(nextX, nextY)){
                         x = nextX;
                         y = nextY;
                     }
                     break;
                 case "R":
-                    nextX = x + dx[DIR.RIGHT.ordinal()];
-                    nextY = y + dy[DIR.RIGHT.ordinal()];
+                    nextX = x + dx[DIR.R.ordinal()];
+                    nextY = y + dy[DIR.R.ordinal()];
                     if(canGo(nextX, nextY)){
                         x = nextX;
                         y = nextY;
@@ -118,6 +158,5 @@ public class UDLR {
 
         System.out.println(x + " " + y);
          */
-
     }
 }
