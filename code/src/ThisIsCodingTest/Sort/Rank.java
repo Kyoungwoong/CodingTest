@@ -5,26 +5,51 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-class Student implements Comparable<Student>{
-    String name;
-    int score;
-
-    public Student(String name, int score){
-        this.name = name;
-        this.score = score;
-    }
-
-    @Override
-    public int compareTo(Student s){
-        return this.score- s.score;
-    }
-}
-
 public class Rank {
+    static class Student implements Comparable<Student>{
+        String name;
+        int score;
+
+        public Student(String name, int score){
+            this.name = name;
+            this.score = score;
+        }
+
+        @Override
+        public int compareTo(Student s){
+            return this.score- s.score;
+        }
+    }
+
     public static int N;
     public static Student[] classA;
 
     public static void main(String[] args) throws IOException {
+//        prev();
+
+        oct14();
+    }
+
+    private static void oct14() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+
+        StringTokenizer st;
+        List<Student> students = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            Student student = new Student(st.nextToken(), Integer.parseInt(st.nextToken()));
+            students.add(student);
+        }
+
+        Collections.sort(students);
+
+        for (Student student : students) {
+            System.out.print(student.name + " ");
+        }
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
         classA = new Student[N];
@@ -59,9 +84,6 @@ public class Rank {
 //        for (int i = 0; i < students.size(); i++) {
 //            System.out.print(students.get(i).name + " ");
 //        }
-
-
-
     }
 }
 
