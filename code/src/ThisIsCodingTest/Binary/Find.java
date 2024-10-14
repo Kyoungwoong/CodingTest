@@ -28,6 +28,52 @@ public class Find {
     }
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        oct14();
+    }
+
+    private static void oct14() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+        display = new Integer[N];
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < N; i++){
+            display[i] = Integer.parseInt(st.nextToken());
+        }
+
+        M = Integer.parseInt(br.readLine());
+        request = new Integer[M];
+
+        st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < M; i++){
+            request[i] = Integer.parseInt(st.nextToken());
+        }
+
+        Arrays.sort(display);
+
+        for (int target : request) {
+            System.out.print(find(target) + " ");
+        }
+    }
+
+    private static String find(int target) {
+        int left = 0;
+        int right = display.length - 1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (display[mid] < target) {
+                left = mid + 1;
+            } else if (display[mid] > target) {
+                right = mid - 1;
+            } else {
+                return "yes";
+            }
+        }
+        return "no";
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
         display = new Integer[N];

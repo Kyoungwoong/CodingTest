@@ -26,7 +26,48 @@ public class BinarySearch {
 
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
+//        prev();
+        oct14();
+    }
+
+    private static void oct14() throws IOException, InterruptedException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        Target = Integer.parseInt(st.nextToken());
+
+        arr = new Integer[N];
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) { // 정렬된 값이 들어온다고 가정
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+
+        int left = 0, right = N;
+        int ans = 0;
+        boolean ansFlag = false;
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (arr[mid] < Target) {
+                left = mid + 1;
+            } else if (arr[mid] > Target) {
+                right = mid - 1;
+            } else {
+                ansFlag = true;
+                System.out.println("mid = " + mid);
+                break;
+            }
+            System.out.println("mid: " + mid + " arr[mid]: " + arr[mid] + " left: " + left + " right: " + right);
+            ans++;
+            Thread.sleep(1000);
+        }
+
+        if (ansFlag) {
+            System.out.println(ans);
+        }
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
@@ -41,7 +82,6 @@ public class BinarySearch {
         Arrays.sort(arr);
 
         System.out.println(search(0, N-1));
-
     }
 }
 /*
