@@ -1,0 +1,6 @@
+-- 코드를 작성해주세요
+-- 10/11
+SELECT
+    COUNT(*) AS FISH_COUNT
+FROM FISH_INFO
+WHERE LENGTH is null;
