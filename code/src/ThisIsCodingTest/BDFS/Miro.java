@@ -8,6 +8,14 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Miro {
+    static class Pair{
+        int x, y;
+        public Pair(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+    }
+
     public static int N, M;
     public static int[] dx = {-1, 0, 1, 0};
     public static int[] dy = {0, 1, 0, -1};
@@ -53,11 +61,55 @@ public class Miro {
     }
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        oct14();
+    }
+
+    private static void oct14() throws IOException {
         // N X M miro
         // 처음 위치 (1, 1) 출구 (N, M)
         // monster 0 path 1
         // 최소 칸의 갯수
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < N; i++) {
+            String line = br.readLine();
+            for (int j = 0; j < M; j++) {
+                miro[i][j] = line.charAt(j) - '0';
+            }
+        }
 
+        devBFS(0, 0);
+        System.out.println("step[N-1][M-1] = " + step[N - 1][M - 1]);
+    }
+
+    private static void devBFS(int x, int y) {
+        visited[x][y] = true;
+        Pair start = new Pair(x, y);
+        q.add(start);
+        step[x][y] = 1;
+
+        while (!q.isEmpty()) {
+            Pair cur = q.poll();
+            for (int i = 0; i < 4; i++) {
+                int nextX = cur.x + dx[i];
+                int nextY = cur.y + dy[i];
+                if (canGo(nextX, nextY)) {
+                    step[nextX][nextY] = step[cur.x][cur.y] + 1;
+                    visited[nextX][nextY] = true;
+                    q.add(new Pair(nextX, nextY));
+                }
+            }
+        }
+    }
+
+    private static void prev() throws IOException {
+        // N X M miro
+        // 처음 위치 (1, 1) 출구 (N, M)
+        // monster 0 path 1
+        // 최소 칸의 갯수
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());

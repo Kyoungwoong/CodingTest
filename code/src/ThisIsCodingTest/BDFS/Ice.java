@@ -8,15 +8,15 @@ import java.util.Queue;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
-class Pair{
-    int x, y;
-    public Pair(int x, int y){
-        this.x = x;
-        this.y = y;
-    }
-}
-
 public class Ice {
+    static class Pair{
+        int x, y;
+        public Pair(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+    }
+
     public static int N, M, cnt = 0;
     public static int[] dx = {-1, 0, 1, 0};
     public static int[] dy = {0, 1, 0, -1};
@@ -55,6 +55,24 @@ public class Ice {
         }
     }
 
+    public static void devBFS(int x, int y) {
+        Pair start = new Pair(x, y);
+        visited[x][y] = true;
+        q.add(start);
+        while (!q.isEmpty()) {
+            Pair cur = q.poll();
+            for (int i = 0; i < 4; i++) {
+                int nextX = cur.x + dx[i];
+                int nextY = cur.y + dy[i];
+                if (canGo(nextX, nextY)) {
+                    Pair nextPair = new Pair(nextX, nextY);
+                    visited[nextX][nextY] = true;
+                    q.add(nextPair);
+                }
+            }
+        }
+    }
+
     public static void dfs(int x, int y){
         visited[x][y] = true;
         s.add(new Pair(x, y));
@@ -72,6 +90,35 @@ public class Ice {
         // 구멍 0 칸막이 1
         // 구멍이 뚫려있는 부분은 하나로 간주
         // 총 아이스크림 갯수
+//        prev();
+        oct14();
+    }
+
+    private static void oct14() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < N; i++) {
+            String line = br.readLine();
+            for (int j = 0; j < M; j++) {
+                frame[i][j] = line.charAt(j) - '0';
+            }
+        }
+
+        int cnt = 0;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (frame[i][j] == 0 && !visited[i][j]) {
+                    devBFS(i, j);
+                    cnt++;
+                }
+            }
+        }
+        System.out.println("cnt = " + cnt);
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
