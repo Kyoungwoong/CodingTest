@@ -1,0 +1,9 @@
+-- -- 코드를 입력하세요
+-- SELECT
+--     MAX(PRICE) AS MAX_PRICE
+-- FROM PRODUCT
+
+-- 10/15
+SELECT
+    MAX(PRICE) AS MAX_PRICE
+FROM PRODUCT
