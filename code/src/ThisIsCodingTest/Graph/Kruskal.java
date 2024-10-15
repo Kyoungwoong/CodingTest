@@ -5,24 +5,25 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-class Node implements Comparable<Node>{
-    int std, index, cost;
-
-    public Node(int std, int index, int cost){
-        this.std = std;
-        this.index = index;
-        this.cost = cost;
-    }
-
-    @Override
-    public int compareTo(Node n){
-        return this.cost - n.cost;
-    }
-}
-
 public class Kruskal {
+    static class Node implements Comparable<Node>{
+        int std, index, cost;
+
+        public Node(int std, int index, int cost){
+            this.std = std;
+            this.index = index;
+            this.cost = cost;
+        }
+
+        @Override
+        public int compareTo(Node n){
+            return this.cost - n.cost;
+        }
+    }
+
     public static int V, E, result = 0;
     public static int[] parent;
     public static ArrayList<Node> graph = new ArrayList<>();
@@ -53,6 +54,42 @@ public class Kruskal {
 
     public static void main(String[] args) throws IOException {
 
+//        prev();
+        oct16();
+    }
+
+    private static void oct16() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        V = Integer.parseInt(st.nextToken());
+        E = Integer.parseInt(st.nextToken());
+
+        parent = new int[V+1];
+
+        init();
+
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        for (int i = 0; i < E; i++) {
+            st = new StringTokenizer(br.readLine());
+            int src = Integer.parseInt(st.nextToken());
+            int desc = Integer.parseInt(st.nextToken());
+            int cost = Integer.parseInt(st.nextToken());
+            pq.add(new Node(src, desc, cost));
+        }
+
+        int ans = 0;
+        while (!pq.isEmpty()) {
+            Node cur = pq.poll();
+            if (findParent(cur.std) != findParent(cur.index)) {
+                union(cur.std, cur.index);
+                ans += cur.cost;
+            }
+        }
+        System.out.println("ans = " + ans);
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 

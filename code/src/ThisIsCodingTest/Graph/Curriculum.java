@@ -17,6 +17,12 @@ public class Curriculum {
 
 
     public static void main(String[] args) throws IOException {
+//        prev();
+
+        oct16();
+    }
+
+    private static void oct16() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         N = Integer.parseInt(br.readLine());
@@ -51,7 +57,66 @@ public class Curriculum {
                 visited[i] = true;
             }
         }
-        
+
+        int[] ans = new int[N+1];
+        for(int i = 1; i <= N; i++){
+            ans[i] = time[i];
+        }
+
+        while(!q.isEmpty()) {
+            int now = q.poll();
+            for (int prev : cur.get(now)) {
+                arr[prev]--;
+                ans[prev] = Math.max(ans[prev], ans[now] + time[prev]);
+                if (arr[prev] == 0 && !visited[prev]) {
+                    visited[prev] = true;
+                    q.add(prev);
+                }
+            }
+        }
+
+        for (int i = 1; i <= N; i++) {
+            System.out.println("ans[i] = " + ans[i]);
+        }
+
+    }
+
+    private static void prev() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        N = Integer.parseInt(br.readLine());
+        arr = new int[N + 1];
+        time = new int[N + 1];
+        visited = new boolean[N + 1];
+
+        for(int i = 0; i <= N; i++){
+            cur.add(new ArrayList<Integer>());
+        }
+
+        for (int i = 1; i <= N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            boolean first = false;
+
+            while (true) {
+                int a = Integer.parseInt(st.nextToken());
+                if (a == -1) break;
+                if (!first) {
+                    time[i] = a;
+                    first = true;
+                } else {
+                    arr[i]++;
+                    cur.get(a).add(i);
+                }
+            }
+        }
+
+        for (int i = 1; i <= N; i++) {
+            if (arr[i] == 0) {
+                q.add(i);
+                visited[i] = true;
+            }
+        }
+
         int[] ans = new int[N+1];
         for(int i = 1; i <= N; i++){
             ans[i] = time[i];
@@ -81,7 +146,7 @@ public class Curriculum {
 //            result += time[now];
 //            ans[now] = result;
         }
-        
+
         for(int i = 1; i<= N; i++){
             System.out.println("ans[i] = " + ans[i]);
         }

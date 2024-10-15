@@ -39,6 +39,51 @@ public class TopologySort {
 
     public static void main(String[] args) throws IOException {
 
+//        prev();
+        oct16();
+    }
+
+    private static void oct16() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        V = Integer.parseInt(st.nextToken());
+        E = Integer.parseInt(st.nextToken());
+
+        arr = new int[V + 1];
+        visited = new boolean[V + 1];
+        for (int i = 0; i <= V; i++) {
+            graph.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < E; i++) {
+            st = new StringTokenizer(br.readLine());
+            int src = Integer.parseInt(st.nextToken());
+            int desc = Integer.parseInt(st.nextToken());
+            graph.get(src).add(desc);
+            arr[desc]++;
+        }
+
+        for (int i = 1; i <= V; i++) {
+            if (arr[i] == 0) {
+                visited[i] = true;
+                q.add(i);
+            }
+        }
+
+        while (!q.isEmpty()) {
+            int now = q.poll();
+            System.out.print(now + " ");
+            for (int cur : graph.get(now)) {
+                arr[cur]--;
+                if (arr[cur] == 0 && !visited[cur]) {
+                    visited[cur] = true;
+                    q.add(cur);
+                }
+            }
+        }
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 

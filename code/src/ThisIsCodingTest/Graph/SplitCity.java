@@ -7,22 +7,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
 
-class End implements Comparable<End>{
-    int a, b, distance;
-    public End(int a, int b, int distance){
-        this.a = a;
-        this.b = b;
-        this.distance = distance;
-    }
-
-    @Override
-    public int compareTo(End n){
-        return this.distance - n.distance;
-    }
-
-}
-
 public class SplitCity {
+    static class End implements Comparable<End>{
+        int a, b, distance;
+        public End(int a, int b, int distance){
+            this.a = a;
+            this.b = b;
+            this.distance = distance;
+        }
+
+        @Override
+        public int compareTo(End n){
+            return this.distance - n.distance;
+        }
+
+    }
+
     private static int N, M, result = 0;
     private static int[] parent;
     private static boolean[] visited;
@@ -53,6 +53,48 @@ public class SplitCity {
     }
 
     public static void main(String[] args) throws IOException {
+//        prev();
+
+        oct16();
+    }
+
+    private static void oct16() throws IOException {
+        // N개의 집에 M개의 길
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        parent = new int[N+1];
+        visited = new boolean[N+1];
+
+        init();
+
+        for(int i = 0; i < M; i++){
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            int cost = Integer.parseInt(st.nextToken());
+            city.add(new End(a, b, cost));
+        }
+
+        Collections.sort(city);
+
+        int last = 0;
+        for (End now : city) {
+            int a = now.a;
+            int b = now.b;
+            int cost = now.distance;
+            if(findParent(a) != findParent(b)){
+                union(a, b);
+                result += cost;
+                last = cost;
+            }
+        }
+
+        System.out.println("result = " + (result-last));
+    }
+
+    private static void prev() throws IOException {
         // N개의 집 M개의 길
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -87,7 +129,6 @@ public class SplitCity {
         }
 
         System.out.println("result = " + (result-last));
-
     }
 }
 /*
