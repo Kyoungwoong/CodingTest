@@ -11,6 +11,19 @@ import java.util.StringTokenizer;
 
 
 public class FixedDijkstra {
+    static class Node implements Comparable<Node>{
+        int index, distance;
+        public Node(int index, int distance){
+            this.index = index;
+            this.distance = distance;
+        }
+
+        @Override
+        public int compareTo(Node n){
+            return this.distance - n.distance;
+        }
+    }
+
     public static final int INF = Integer.MAX_VALUE;
     public static int N, M, START;
     // 각 노드에 연결되어 있는 노드에 대한 정보를 담는 배열
@@ -49,6 +62,67 @@ public class FixedDijkstra {
     }
 
     public static void main(String[] args) throws IOException {
+//        prev();
+
+        oct15();
+    }
+
+    private static void oct15() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        START = Integer.parseInt(br.readLine());
+
+        for (int i = 0; i <= N; i++) {
+            graph.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine());
+            int src = Integer.parseInt(st.nextToken());
+            int desc = Integer.parseInt(st.nextToken());
+            int distance = Integer.parseInt(st.nextToken());
+            graph.get(src).add(new Node(desc, distance));
+        }
+        Arrays.fill(d, INF);
+
+        oct15_fixedDijkstra(START);
+    }
+
+    private static void oct15_fixedDijkstra(int start) {
+        pq.add(new Node(start, 0));
+        d[start] = 0;
+
+        while (!pq.isEmpty()) {
+            Node now = pq.poll();
+
+            if (d[now.index] < now.distance) {
+                continue;
+            }
+
+            for (Node desc : graph.get(now.index)) {
+                if (d[desc.index] > d[now.index] + desc.distance) {
+                    d[desc.index] = d[now.index] + desc.distance;
+                    pq.add(new Node(desc.index, d[now.index] + desc.distance));
+                }
+            }
+        }
+
+        for (int i = 1; i <= N; i++) {
+            // 도달할 수 없는 경우, 무한(INFINITY)이라고 출력
+            if (d[i] == INF) {
+                System.out.println("INFINITY");
+            }
+            // 도달할 수 있는 경우 거리를 출력
+            else {
+                System.out.println(d[i]);
+            }
+        }
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
@@ -85,7 +159,6 @@ public class FixedDijkstra {
                 System.out.println(d[i]);
             }
         }
-
     }
 }
 /*

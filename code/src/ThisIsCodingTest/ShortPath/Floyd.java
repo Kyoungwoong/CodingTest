@@ -6,23 +6,23 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-class Path{
-    int reach, distance;
-
-    public Path(int reach, int distance) {
-        this.reach = reach;
-        this.distance = distance;
-    }
-}
-
 public class Floyd {
+    static class Path{
+        int reach, distance;
+
+        public Path(int reach, int distance) {
+            this.reach = reach;
+            this.distance = distance;
+        }
+    }
+
     private static int n, m, a, b, c, MAX_VALUE = 100000;
     private static ArrayList<ArrayList<Path>> graph = new ArrayList<>();
     private static int[][] d;
 
     public static void init() {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
                 if(i == j) {
                     d[i][j] = 0;
                 }else{
@@ -43,6 +43,54 @@ public class Floyd {
     }
 
     public static void main(String[] args) throws IOException {
+//        prev();
+
+        oct15();
+    }
+
+    private static void oct15() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        n = Integer.parseInt(br.readLine());
+        m = Integer.parseInt(br.readLine());
+        d = new int[n + 1][n + 1];
+
+        init();
+
+        StringTokenizer st;
+        for (int i = 0; i < m; i++) {
+            st = new StringTokenizer(br.readLine());
+            int src = Integer.parseInt(st.nextToken());
+            int desc = Integer.parseInt(st.nextToken());
+            int distance = Integer.parseInt(st.nextToken());
+
+            d[src][desc] = Math.min(d[src][desc], distance);
+        }
+
+        octFloyd();
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                System.out.print(d[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    private static void octFloyd() {
+        for (int k = 1; k <= n; k++) { // 경유지
+            for (int i = 1; i <= n; i++) { // src
+                for (int j = 1; j <= n; j++) { // desc
+                    if (i == j) {
+                        continue;
+                    }
+                    // i에서 k를 거쳐 j로 가는 경로와 i에서 j로 바로 가는 경로 중 더 짧은 것 선택
+                    d[i][j] = Math.min(d[i][j], d[i][k] + d[k][j]);
+                }
+            }
+        }
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         n = Integer.parseInt(br.readLine());
         m = Integer.parseInt(br.readLine());

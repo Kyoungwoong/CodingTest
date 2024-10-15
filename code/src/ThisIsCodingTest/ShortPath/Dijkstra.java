@@ -7,20 +7,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-class Node implements Comparable<Node>{
-    int index, distance;
-    public Node(int index, int distance){
-        this.index = index;
-        this.distance = distance;
-    }
-
-    @Override
-    public int compareTo(Node n){
-        return this.distance - n.distance;
-    }
-}
-
 public class Dijkstra {
+    static class Node implements Comparable<Node>{
+        int index, distance;
+        public Node(int index, int distance){
+            this.index = index;
+            this.distance = distance;
+        }
+
+        @Override
+        public int compareTo(Node n){
+            return this.distance - n.distance;
+        }
+    }
+
     public static final int INF = Integer.MAX_VALUE;
     public static int N, M, START;
     // 각 노드에 연결되어 있는 노드에 대한 정보를 담는 배열
@@ -66,6 +66,61 @@ public class Dijkstra {
     }
 
     public static void main(String[] args) throws IOException {
+//        prev();
+
+        oct15();
+    }
+
+    private static void oct15() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        START = Integer.parseInt(br.readLine());
+        for (int i = 0; i <= N; i++) {
+            graph.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine());
+            int src = Integer.parseInt(st.nextToken());
+            int desc = Integer.parseInt(st.nextToken());
+            int distance = Integer.parseInt(st.nextToken());
+            graph.get(src).add(new Node(desc, distance));
+        }
+        Arrays.fill(d, INF);
+
+        d[START] = 0;
+        oct15_dijkstra(START);
+
+        for (int i = 1; i <= N; i++) {
+            System.out.print(d[i] + " ");
+        }
+    }
+
+    private static void oct15_dijkstra(int start) {
+        visited[start] = true;
+
+        for (Node desc : graph.get(start)) {
+            if (d[desc.index] > d[start] + desc.distance) {
+                d[desc.index] = d[start] + desc.distance;
+            }
+        }
+
+        int next = Integer.MAX_VALUE;
+        int minIdx = -1;
+        for (int i = 1; i <= N; i++) {
+            if (!visited[i] && next > d[i]) {
+                next = Math.min(next, d[i]);
+                minIdx = i;
+            }
+        }
+        if (minIdx != -1) {
+            oct15_dijkstra(minIdx);
+        }
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
@@ -102,7 +157,6 @@ public class Dijkstra {
                 System.out.println(d[i]);
             }
         }
-
     }
 }
 /*
