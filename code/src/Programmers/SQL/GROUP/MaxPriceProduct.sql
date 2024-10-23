@@ -1,0 +1,38 @@
+-- 코드를 입력하세요
+-- SELECT
+--     FO.CATEGORY,
+--     FO.MAX_PRICE,
+--     FP.PRODUCT_NAME
+-- FROM FOOD_PRODUCT FP, (
+--     SELECT
+--         CATEGORY,
+--         MAX(PRICE) AS MAX_PRICE
+--     FROM FOOD_PRODUCT
+--     GROUP BY CATEGORY
+--     HAVING CATEGORY IN ('과자', '국', '김치', '식용유')
+-- )FO
+-- WHERE FO.MAX_PRICE = FP.PRICE AND FP.CATEGORY IN ('과자', '국', '김치', '식용유')
+-- ORDER BY MAX_PRICE DESC
+
+-- 10/23
+SELECT
+    F1.CATEGORY,
+    F2.MAX_PRICE,
+    F1.PRODUCT_NAME
+FROM FOOD_PRODUCT F1 JOIN (
+    SELECT
+        CATEGORY,
+        MAX(PRICE) AS MAX_PRICE
+    FROM FOOD_PRODUCT F2
+    GROUP BY CATEGORY
+    HAVING CATEGORY IN ('과자', '국', '김치', '식용유')
+)F2 ON F1.PRICE = F2.MAX_PRICE AND F1.CATEGORY IN ('과자', '국', '김치', '식용유')
+ORDER BY F2.MAX_PRICE DESC
+
+
+
+
+
+
+
+
