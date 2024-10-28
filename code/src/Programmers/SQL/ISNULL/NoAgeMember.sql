@@ -1,0 +1,18 @@
+-- 코드를 입력하세요
+-- SELECT
+--     COUNT(*) AS USERS
+-- FROM (
+--     SELECT *
+--     FROM USER_INFO
+--     WHERE AGE IS NULL
+-- )
+-- SELECT
+--     COUNT(*) AS USERS
+-- FROM USER_INFO
+-- WHERE AGE IS NULL
+
+-- 10/25
+SELECT
+    COUNT(*) AS USERS
+FROM USER_INFO
+WHERE AGE IS NULL
