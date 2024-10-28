@@ -3,16 +3,60 @@ package ThisIsCodingTest.Greedy;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Disable {
     private static int N;
     public static ArrayList<Integer> arrayList = new ArrayList<>();
+    public static List<Integer> coins = new ArrayList<>();
+    public static Set<Integer> bucket = new HashSet<>();
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        oct28();
+    }
+
+    private static void oct28() throws IOException {
+        // N개의 동전.
+        // N개의 동전을 이용하여 만들 수 없는 양의 정수 금액중 최솟값.
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+//        int[] coins = new int[N];
+        for (int i = 0; i < N; i++) {
+            coins.add(Integer.parseInt(st.nextToken()));
+        }
+//        Collections.sort(coins);
+        /*
+        0, 0-1, 0-1-2, 0-1-2...N/
+        1,
+        N
+         */
+        recursive();
+
+        int cur = 1;
+        while (bucket.contains(cur)) {
+            cur++;
+        }
+        System.out.println("cur = " + cur);
+    }
+
+    public static void recursive() {
+        for (int i = 0; i < N; i++) {
+            putCoin(i, coins.get(i));
+        }
+    }
+
+    public static void putCoin(int idx, int addCoin) {
+        bucket.add(addCoin);
+        if (idx == N -1) {
+            return;
+        }
+        putCoin(idx + 1, addCoin + coins.get(idx + 1));
+    }
+
+
+    private static void prev() throws IOException {
         // N개의 동전.
         // N개의 동전을 이용하여 만들 수 없는 양의 정수 금액중 최솟값.
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

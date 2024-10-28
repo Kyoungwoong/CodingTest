@@ -12,6 +12,35 @@ public class Adventurer {
     private static int N;
     private static Integer[] scary;
     public static void main(String[] args) throws IOException {
+//        prev();
+
+        oct28();
+    }
+
+    private static void oct28() throws IOException {
+        // 한 마을에 모험가가 N
+        // N명의 모험가에게 공포도 측정.
+        // 공포도가 X인 모험가는 반드시 X 명 이상으로 구성한 모험가 그룹에 참여해야함.
+        // 최대 몇개의 모험가 그룹?
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+        scary = new Integer[N];
+
+        Arrays.sort(scary);
+
+        int ans = 0;
+        int group = 0;
+        for(int i = 0; i < N; i++){
+            group += 1;
+            if (group >= scary[i]) {
+                ans += 1;
+                group = 0;
+            }
+        }
+        System.out.println("ans = " + ans);
+    }
+
+    private static void prev() throws IOException {
         // 한 마을에 모험가가 N
         // N명의 모험가에게 공포도 측정.
         // 공포도가 X인 모험가는 반드시 X 명 이상으로 구성한 모험가 그룹에 참여해야함.

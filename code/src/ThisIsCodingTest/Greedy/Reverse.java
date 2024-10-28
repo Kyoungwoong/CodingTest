@@ -6,6 +6,54 @@ import java.io.InputStreamReader;
 
 public class Reverse {
     public static void main(String[] args) throws IOException {
+//        prev();
+        oct28();
+    }
+
+    private static void oct28() throws IOException {
+        // 0과 1로만 이루어진 문자열 S
+        // S에 있는 문자 전부 같게.
+        // S에서 연속된 하나 이상의 숫자를 잡고 모두 뒤집는 것.
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String S = br.readLine();
+        int len = S.length();
+
+        int toZero = 0;
+        boolean other = false;
+        for (int i = 0; i < len; i++) {
+            if (S.charAt(i) == '1' && !other) {
+                other = true;
+            } else if (S.charAt(i) == '0' && !other) {
+                continue;
+            } else if (S.charAt(i) == '0' && other) {
+                other = false;
+                toZero++;
+            }
+        }
+        if (other) {
+            toZero++;
+        }
+
+        int toOne = 0;
+        other = false;
+        for (int i = 0; i < len; i++) {
+            if (S.charAt(i) == '0' && !other) {
+                other = true;
+            } else if (S.charAt(i) == '1' && !other) {
+                continue;
+            } else if (S.charAt(i) == '1' && other) {
+                other = false;
+                toOne++;
+            }
+        }
+        if (other) {
+            toOne++;
+        }
+
+        System.out.println("Math.max(toOne, toZero) = " + Math.min(toOne, toZero));
+    }
+
+    private static void prev() throws IOException {
         // 0과 1로만 이루어진 문자열 S
         // S에 있는 문자 전부 같게.
         // S에서 연속된 하나 이상의 숫자를 잡고 모두 뒤집는 것.

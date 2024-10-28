@@ -12,6 +12,40 @@ public class Ball {
     public static ArrayList<Integer> balls = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        oct28();
+    }
+
+    private static void oct28() throws IOException {
+        // 두 사람은 서로 다른 무게의 볼링공
+        // 서로다른 볼링공의 조합
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+
+        st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < N; i++){
+            balls.add(Integer.parseInt(st.nextToken()));
+        }
+        Collections.sort(balls);
+
+        int ans = 0;
+        for (int i = 0; i < N; i++) {
+            int A = balls.get(i);
+            for (int j = i + 1; j < N; j++) {
+                if (A != balls.get(j)) {
+                    ans += N - j;
+                    break;
+                }
+            }
+        }
+
+        System.out.println("ans = " + ans);
+    }
+
+    private static void prev() throws IOException {
         // 두 사람은 서로 다른 무게의 볼링공
         // 서로다른 볼링공의 조합
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
