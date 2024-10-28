@@ -1,0 +1,54 @@
+-- -- 코드를 입력하세요
+-- -- 10/28
+-- SELECT
+--     MP.MEMBER_NAME,
+--     W.REVIEW_TEXT,
+--     TO_CHAR(W.REVIEW_DATE, 'YYYY-MM-DD') AS REVIEW_DATE
+-- FROM (
+--     SELECT
+--         P.MEMBER_ID
+--     FROM MEMBER_PROFILE P
+--     JOIN REST_REVIEW R ON P.MEMBER_ID = R.MEMBER_ID
+--     GROUP BY P.MEMBER_ID
+--     HAVING COUNT(*) = (
+--         SELECT MAX(Subquery.COUNT)
+--         FROM (
+--             SELECT COUNT(*) AS COUNT
+--             FROM MEMBER_PROFILE P
+--             JOIN REST_REVIEW R ON P.MEMBER_ID = R.MEMBER_ID
+--             GROUP BY P.MEMBER_ID
+--         ) Subquery
+--     )
+-- )Q JOIN REST_REVIEW W ON Q.MEMBER_ID = W.MEMBER_ID JOIN MEMBER_PROFILE MP ON
+--     W.MEMBER_ID = MP.MEMBER_ID
+-- ORDER BY TO_CHAR(W.REVIEW_DATE, 'YYYY-MM-DD') ASC, W.REVIEW_TEXT ASC
+
+WITH MemberReviewCount AS (
+    SELECT
+        MEMBER_ID,
+        COUNT(*) AS REVIEW_COUNT
+    FROM
+        REST_REVIEW
+    GROUP BY
+        MEMBER_ID
+),
+     MaxReviewMember AS (
+         SELECT
+             MEMBER_ID
+         FROM
+             MemberReviewCount
+         WHERE
+                 REVIEW_COUNT = (SELECT MAX(REVIEW_COUNT) FROM MemberReviewCount)
+     )
+
+SELECT
+    MP.MEMBER_NAME,
+    RR.REVIEW_TEXT,
+    TO_CHAR(RR.REVIEW_DATE, 'YYYY-MM-DD')
+FROM
+    REST_REVIEW RR
+        JOIN MEMBER_PROFILE MP ON RR.MEMBER_ID = MP.MEMBER_ID
+        JOIN MaxReviewMember MRM ON RR.MEMBER_ID = MRM.MEMBER_ID
+ORDER BY
+    TO_CHAR(RR.REVIEW_DATE, 'YYYY-MM-DD') ASC,
+    RR.REVIEW_TEXT ASC;
