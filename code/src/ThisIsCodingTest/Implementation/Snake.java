@@ -17,18 +17,20 @@ class Dir{
     }
 }
 
-class Pair{
-    int x, y;
-    public Pair(int x, int y){
-        this.x = x;
-        this.y = y;
-    }
-}
-
 public class Snake {
+
+    static class Pair{
+        int x, y;
+        public Pair(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+    }
+
     private static int N, K, L;
     private static int[][] board = new int[100][100];
     private static ArrayList<Dir> arrayList = new ArrayList<>();
+    private static Queue<Dir> rotate = new LinkedList<>();
     private static ArrayList<Pair> snake = new ArrayList<>();
 
     public static int dx[] = {0, 1, 0, -1};
@@ -77,6 +79,68 @@ public class Snake {
     }
 
     public static void main(String[] args) throws IOException {
+        prev();
+//        oct30();
+    }
+
+    private static void oct30() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+        K = Integer.parseInt(br.readLine());
+        for (int i = 0; i < K; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            board[Integer.parseInt(st.nextToken())-1][Integer.parseInt(st.nextToken())-1] = 1;
+        }
+        L = Integer.parseInt(br.readLine());
+        for (int i = 0; i < L; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            rotate.add(new Dir(Integer.parseInt(st.nextToken()), st.nextToken()));
+        }
+
+        System.out.println(snakeGame());
+    }
+
+    private static int snakeGame() {
+        int time = 0;
+        Pair snake = new Pair(0, 0);
+        int dir = 1;
+        int[] dx = {-1, 0, 1, 0};
+        int[] dy = {0, 1, 0, -1};
+        board[0][0] = 2;
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(0, 0));
+        int nextX = snake.x + dx[dir];
+        int nextY = snake.y + dy[dir];
+
+        while (canGo(nextX, nextY)) {
+            System.out.println("time: " + time + " nextX nextY: " + nextX + " " +nextY);
+
+            if(board[nextX][nextY] != 1){
+                Pair tail = q.poll();
+                board[tail.x][tail.y] = 0;
+            }
+
+            board[nextX][nextY] = 2;
+            q.add(new Pair(nextX, nextY));
+            time++;
+            if (!rotate.isEmpty() && rotate.peek().second == time) {
+                System.out.print("change: " + dir);
+                Dir cur = rotate.poll();
+                if (cur.dir.equals("L")) {
+                    dir = (4 + dir - 1) % 4;
+                } else {
+                    dir = (dir + 1) % 4;
+                }
+                System.out.println("\t => " + dir);
+            }
+
+            nextX = nextX + dx[dir];
+            nextY = nextY + dy[dir];
+        }
+        return time;
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
         K = Integer.parseInt(br.readLine());

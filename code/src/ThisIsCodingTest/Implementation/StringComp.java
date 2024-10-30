@@ -10,7 +10,67 @@ public class StringComp {
     public static int len;
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        oct30();
 
+    }
+
+    private static void oct30() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        S = br.readLine();
+        len = S.length();
+
+        int result = len; // i가 1일때
+        for (int i = 1; i <= len / 2; i++) {
+            // i는 자르는 단위
+            System.out.println("i = " + i);
+            System.out.println("=============================================");
+            String cmd = "";
+            String previous = "";
+            int comp = 1;
+            for (int j = 0; j < len; j += i) {
+                if (j + i > len) {
+                    if (previous.equals("")) {
+                        cmd += S.substring(j);
+                    } else {
+                        cmd += previous + S.substring(j);
+                    }
+                    break;
+                }
+
+                System.out.print(S.substring(j, j + i) + "\t");
+                if (previous.equals(S.substring(j, j + i))) {
+                    comp++;
+                } else if (previous.equals("")) {
+                    previous = S.substring(j, j + i);
+                    comp = 1;
+                } else {
+                    if (comp == 1) {
+                        cmd += previous;
+                    } else {
+                        cmd += comp + previous;
+                    }
+                    comp = 1;
+                    previous = S.substring(j, j + i);
+                }
+
+                if (j + i == len) {
+                    if (comp == 1) {
+                        cmd += S.substring(j, j + i);
+                    } else {
+                        cmd += comp + S.substring(j, j + i);
+                    }
+                    break;
+                }
+            }
+
+            result = Math.min(result, cmd.length());
+            System.out.println("\ncmd = " + cmd + ": " + cmd.length());
+        }
+        System.out.println("result = " + result);
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         S = br.readLine();
         len = S.length();
@@ -65,7 +125,6 @@ public class StringComp {
             minLen = Math.min(minLen, min);
         }
         System.out.println("minLen = " + minLen);
-
     }
 }
 /*

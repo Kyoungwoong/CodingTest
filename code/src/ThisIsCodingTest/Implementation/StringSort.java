@@ -6,12 +6,42 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class StringSort {
     public static String S;
     public static int len;
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        oct30();
+    }
+
+    private static void oct30() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        S = br.readLine();
+        len = S.length();
+
+        List<Character> arr = new ArrayList<>();
+        int next = 0;
+        for (int i = 0; i < len; i++) {
+            if (S.charAt(i) - '0' >= 0 && S.charAt(i) - '0' <= 9) {
+                next += S.charAt(i) - '0';
+            } else {
+                arr.add(S.charAt(i));
+            }
+        }
+        Collections.sort(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (Character word : arr) {
+            sb.append(word);
+        }
+        sb.append(next);
+        System.out.println("sb = " + sb);
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         S = br.readLine();
