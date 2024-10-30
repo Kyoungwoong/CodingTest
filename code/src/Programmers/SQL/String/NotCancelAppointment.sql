@@ -1,0 +1,51 @@
+-- 코드를 입력하세요
+-- SELECT
+--     A.APNT_NO,
+--     P.PT_NAME,
+--     P.PT_NO,
+--     'CS' AS MCDP_CD,
+--     D.DR_NAME,
+--     A.APNT_YMD
+-- FROM PATIENT P, DOCTOR D, (
+--     SELECT
+--         APNT_YMD, APNT_NO, PT_NO, MDDR_ID
+--     FROM APPOINTMENT
+--     WHERE TO_CHAR(APNT_YMD, 'YYYY-MM-DD') = '2022-04-13' AND MCDP_CD = 'CS' AND APNT_CNCL_YN = 'N'
+-- )A
+-- WHERE A.PT_NO =  P.PT_NO AND A.MDDR_ID = D.DR_ID
+-- ORDER BY APNT_YMD
+
+-- 10/30
+SELECT
+    A.APNT_NO,
+    P.PT_NAME,
+    A.PT_NO,
+    A.MCDP_CD,
+    D.DR_NAME,
+    A.APNT_YMD
+FROM DOCTOR D JOIN (
+    SELECT
+        APNT_YMD,
+        APNT_NO,
+        PT_NO,
+        MCDP_CD,
+        MDDR_ID
+    FROM APPOINTMENT
+    WHERE APNT_CNCL_YN = 'N' AND TO_CHAR(APNT_YMD, 'YYYY-MM-DD') = '2022-04-13'
+) A ON D.DR_ID = A.MDDR_ID JOIN PATIENT P ON A.PT_NO = P.PT_NO
+WHERE A.MCDP_CD = 'CS'
+ORDER BY A.APNT_YMD ASC
+
+
+
+
+
+
+
+
+
+
+
+
+
+

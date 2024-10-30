@@ -1,0 +1,45 @@
+-- -- 코드를 입력하세요
+-- SELECT
+--     DISTINCT O.CAR_ID
+-- FROM (
+--     SELECT
+--         C.CAR_TYPE,
+--         H.CAR_ID,
+--         H.START_DATE
+--     FROM CAR_RENTAL_COMPANY_CAR C, CAR_RENTAL_COMPANY_RENTAL_HISTORY H
+--     WHERE C.CAR_ID = H.CAR_ID AND C.CAR_TYPE = '세단'
+-- )O
+-- WHERE TO_CHAR(O.START_DATE, 'YYYY-MM') = '2022-10'
+-- ORDER BY O.CAR_ID DESC
+
+-- 10/30
+SELECT
+    H.CAR_ID
+FROM (
+         SELECT
+             DISTINCT CAR_ID
+         FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+         WHERE EXTRACT(MONTH FROM START_DATE) = 10
+     ) H JOIN (
+    SELECT
+        CAR_ID
+    FROM CAR_RENTAL_COMPANY_CAR
+    WHERE CAR_TYPE = '세단'
+) C ON H.CAR_ID = C.CAR_ID
+ORDER BY H.CAR_ID DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
