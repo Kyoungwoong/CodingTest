@@ -11,26 +11,75 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-class Food implements Comparable<Food>{
-    int time, index;
+public class Muzi {
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] food_times = {3, 1, 2};
+        long k = 5;
+        System.out.println(solution.solution(food_times, k));
 
-    public Food(int time, int index){
-        this.time = time;
-        this.index = index;
-    }
-
-    @Override
-    public int compareTo(Food f){
-        return this.time - f.time;
     }
 }
 
 class Solution {
+
+    static class Food implements Comparable<Food>{
+        int time, index;
+
+        public Food(int time, int index){
+            this.time = time;
+            this.index = index;
+        }
+
+        @Override
+        public int compareTo(Food f){
+            return this.time - f.time;
+        }
+    }
         public ArrayList<Integer> ans = new ArrayList<>();
     // 시간 순으로 오름차순 정렬
     public PriorityQueue<Food> foods = new PriorityQueue<>();
 
     public int solution(int[] food_times, long k) {
+        int ans = 0;
+//        ans = prev(food_times, k);
+        ans = oct28(food_times, k);
+
+        return ans;
+    }
+
+    private int oct28(int[] food_times, long k) {
+        int len = food_times.length;
+        for (int i = 0; i < len; i++) {
+            Food food = new Food(food_times[i], i + 1);
+            foods.offer(food);
+        }
+
+        int total = 0;
+        int previous = 0;
+        while (total + (foods.peek().time - previous) * len <= k) {
+            Food food = foods.poll();
+            total += (food.time - previous) * len;
+            previous = food.time;
+            len--;
+        }
+
+        ArrayList<Food> result = new ArrayList<>();
+        while (!foods.isEmpty()) {
+            result.add(foods.poll());
+        }
+        // 음식의 번호 기준으로 정렬
+        Collections.sort(result, new Comparator<Food>() {
+            @Override
+            public int compare(Food a, Food b) {
+                return Integer.compare(a.index, b.index);
+            }
+        });
+
+        return result.get((int) (k - total) % len).index;
+    }
+
+    private int prev(int[] food_times, long k) {
         int answer = 0;
         int len = food_times.length;
         int sum = 0;
@@ -48,11 +97,13 @@ class Solution {
         // len
         int previous = 0; // 이전시간
         while(sum + (foods.peek().time - previous) * len <= k){
+            System.out.println("sum = " + sum + " previous = " + previous);
             Food now = foods.poll();
             sum += (now.time - previous) * len;
             len--;
             previous = now.time;
         }
+        System.out.println("sum = " + sum + " previous = " + previous);
 
         // 남은 음식 중에서 몇 번째 음식인지 확인하여 출력
         ArrayList<Food> result = new ArrayList<>();
@@ -67,7 +118,7 @@ class Solution {
             }
         });
 
-        return result.get((int) (k-sum)%len).index;
+        return result.get((int) (k - sum) % len).index;
     }
 }
 
