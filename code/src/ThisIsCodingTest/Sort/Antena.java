@@ -11,6 +11,26 @@ public class Antena {
     private static int[] town;
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        oct31();
+    }
+
+    private static void oct31() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+
+        town = new int[N];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            town[i] = Integer.parseInt(st.nextToken());
+        }
+        Arrays.sort(town);
+        int mid = (town[(N - 1) / 2]);
+
+        System.out.println("mid = " + mid);
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
         town = new int[N];

@@ -7,39 +7,57 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
 
-class Score implements Comparable<Score>{
-    int Korean, English, Math;
-    String name;
+public class KEM {
+    static class Score implements Comparable<Score>{
+        int Korean, English, Math;
+        String name;
 
-    public Score(String name, int korean, int english, int math) {
-        this.Korean = korean;
-        this.English = english;
-        this.Math = math;
-        this.name = name;
-    }
+        public Score(String name, int korean, int english, int math) {
+            this.Korean = korean;
+            this.English = english;
+            this.Math = math;
+            this.name = name;
+        }
 
-    @Override
-    public int compareTo(Score s) {
-        if (this.Korean == s.Korean) {
-            if (this.English == s.English) {
-                if (this.Math == s.Math) {
-                    return s.name.compareTo(this.name);
+        @Override
+        public int compareTo(Score s) {
+            if (this.Korean == s.Korean) {
+                if (this.English == s.English) {
+                    if (this.Math == s.Math) {
+                        return s.name.compareTo(this.name);
+                    }
+                    return this.Math - s.Math;
                 }
-                return this.Math - s.Math;
-            }
 //            return this.English - s.English;
-            return s.English - this.English;
-        }else{
-            return this.Korean - s.Korean;
+                return s.English - this.English;
+            }else{
+                return this.Korean - s.Korean;
+            }
         }
     }
-}
-
-public class KEM {
     private static int N;
     private static ArrayList<Score> arr = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        oct31();
+    }
+
+    private static void oct31() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+        for (int i = 0; i < N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            arr.add(new Score(st.nextToken(), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
+        }
+        Collections.sort(arr);
+
+        for (Score score : arr) {
+            System.out.println(score.name);
+        }
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
 
@@ -53,7 +71,6 @@ public class KEM {
         for (int i = 0; i < N; i++) {
             System.out.println("arr.get(i).name = " + arr.get(i).name);
         }
-
     }
 }
 

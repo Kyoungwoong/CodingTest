@@ -6,16 +6,42 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.PriorityQueue;
 
 public class Card {
     private static int N;
     private static ArrayList<Integer> cards = new ArrayList<>();
     
     public static void main(String[] args) throws IOException {
-        
+
+//        prev();
+        oct31();
+    }
+
+    private static void oct31() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
-        
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+
+        for (int i = 0; i < N; i++) {
+            pq.add(Integer.parseInt(br.readLine()));
+        }
+
+        int sum = 0;
+        while (pq.size() != 1) {
+            int a = pq.poll();
+            int b = pq.poll();
+            sum += a + b;
+            pq.add(a + b);
+        }
+        System.out.println("sum = " + sum);
+
+    }
+
+    private static void prev() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+
         for (int i = 0; i < N; i++) {
             cards.add(Integer.parseInt(br.readLine()));
         }
