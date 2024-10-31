@@ -3,13 +3,49 @@ package ThisIsCodingTest.DP;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Warrior {
     private static int N;
     private static int[] warriors;
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        nov1();
+    }
+
+    private static void nov1() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+        List<Integer> warriorsList = new ArrayList<>();
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            warriorsList.add(Integer.parseInt(st.nextToken()));
+        }
+//        Collections.reverse(warriorsList);
+
+        int[] dp = new int[N];
+        Arrays.fill(dp, 1);
+
+        for (int i = 1; i < N; i++) {
+            for (int j = 0; j < i; j++) {
+                if (warriorsList.get(j) > warriorsList.get(i)) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+
+        int maxValue = 0;
+        for (int i = 0; i < N; i++) {
+            System.out.print(dp[i] + " ");
+            maxValue = Math.max(maxValue, dp[i]);
+        }
+        System.out.println();
+        System.out.println(N - maxValue);
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
         warriors = new int[N];
@@ -40,8 +76,16 @@ public class Warrior {
         }
 
         System.out.println(N - max);
+    }
+}
+/*
+7
+15 11 4 8 5 2 4
+--- 2
+ */
 
-        /*
+
+/*
         나동빈 버전
         static int n;
         static ArrayList<Integer> v = new ArrayList<Integer>();
@@ -80,10 +124,3 @@ public class Warrior {
             System.out.println(n - maxValue);
         }
          */
-    }
-}
-/*
-7
-15 11 4 8 5 2 4
---- 2
- */

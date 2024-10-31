@@ -5,21 +5,52 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-class Counseling{
-    int during, pay;
-
-    public Counseling(int during, int pay) {
-        this.during = during;
-        this.pay = pay;
-    }
-}
-
 public class Resignation {
+    static class Counseling{
+        int during, pay;
+
+        public Counseling(int during, int pay) {
+            this.during = during;
+            this.pay = pay;
+        }
+    }
+
     private static int N;
     private static int[] dp;
     private static Counseling[] schedule;
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        nov1();
+    }
+
+    private static void nov1() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+
+        schedule = new Counseling[N];
+        for (int i = 0; i < N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            schedule[i] = new Counseling(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+        }
+
+        dp = new int[N + 1];
+
+        int maxPay = 0;
+        for (int i = N - 1; i >= 0; i--) {
+            int endDay = schedule[i].during + i;
+
+            if (endDay <= N) {
+                dp[i] = Math.max(schedule[i].pay + dp[endDay], maxPay);
+                maxPay = dp[i];
+            } else {
+                dp[i] = maxPay;
+            }
+        }
+        System.out.println(maxPay);
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
         dp = new int[N + 1];
