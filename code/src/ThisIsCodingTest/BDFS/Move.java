@@ -9,6 +9,13 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Move {
+    static class Pos{
+        int x, y;
+        public Pos(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+    }
     private static int N, L, R;
     private static int[][] land;
     private static int[] dx = {-1, 0, 1, 0};

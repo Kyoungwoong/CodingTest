@@ -8,15 +8,14 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-class Pos{
-    int x, y;
-    public Pos(int x, int y){
-        this.x = x;
-        this.y = y;
-    }
-}
-
 public class Lab {
+    static class Pos{
+        int x, y;
+        public Pos(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+    }
     private static int N, M, max = -1;
     private static int[][] board, temp;
     private static boolean[][] visited;
@@ -91,6 +90,61 @@ public class Lab {
     }
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        oct30();
+    }
+
+    private static void oct30() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        board = new int[N][M];
+        temp = new int[N][M];
+        visited = new boolean[N][M];
+
+        for(int i = 0; i < N; i++){
+            st = new StringTokenizer(br.readLine());
+            for(int j = 0; j < M; j++){
+                board[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        oct_dfs(0);
+
+        System.out.println("max = " + max);
+    }
+
+    private static void oct_dfs(int count) {
+        if (count == 3) {
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < M; j++) {
+                    temp[i][j] = board[i][j];
+                }
+            }
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < M; j++) {
+                    if (temp[i][j] == 2) {
+                        virus(i, j);
+                    }
+                }
+            }
+            max = Math.max(max, getScore());
+            return;
+        }
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (board[i][j] == 0) {
+                    board[i][j] = 1;
+                    oct_dfs(count + 1);
+                    board[i][j] = 0;
+                }
+            }
+        }
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
