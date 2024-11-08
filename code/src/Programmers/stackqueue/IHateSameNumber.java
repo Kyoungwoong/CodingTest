@@ -12,6 +12,27 @@ public class IHateSameNumber {
     private static Stack<Integer> stack = new Stack<>();
 
     public static void main(String[] args) {
+//        int[] ans = prev();
+        int[] ans = nov8();
+
+        for (int num : ans) {
+            System.out.print(num + " ");
+        }
+    }
+
+    private static int[] nov8() {
+        Stack<Integer> ans = new Stack<>();
+
+        for (int num: arr) {
+            if (ans.isEmpty() || ans.peek() != num) {
+                ans.add(num);
+            }
+        }
+
+        return ans.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    private static int[] prev() {
         for (int num : arr) {
             if (!stack.isEmpty()) {
                 if (stack.peek() != num) {
@@ -27,8 +48,7 @@ public class IHateSameNumber {
         }
 
         // 배열 출력
-        for (int num : resultArray) {
-            System.out.println("num = " + num);
-        }
+        return resultArray;
+
     }
 }

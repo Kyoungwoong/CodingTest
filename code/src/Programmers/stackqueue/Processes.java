@@ -10,7 +10,7 @@ public class Processes {
     private static int location = 0;
 
     static class Process {
-        int idx, priority;
+        int priority, idx;
 
         public Process(int idx, int priority) {
             this.idx = idx;
@@ -22,9 +22,41 @@ public class Processes {
     private static List<Process> list = new ArrayList<>();
 
     public static void main(String[] args) throws InterruptedException {
+//        prev();
+
+    }
+
+    private static int nov8() {
+        Queue<Process> processes = new LinkedList<>();
+        PriorityQueue<Integer> remainPriority = new PriorityQueue<>(Collections.reverseOrder());
+
+        int len = priorities.length;
+        for(int i = 0; i < len; i++) {
+            int priority = priorities[i];
+            remainPriority.add(priority);
+            processes.add(new Process(priority, i));
+        }
+
+        int order = 1;
+        while(true) {
+            Process ready = processes.poll();
+            int maxPriority = remainPriority.poll();
+            if (maxPriority == ready.priority) {
+                if (location == ready.idx) {
+                    return order;
+                } else {
+                    order++;
+                }
+            } else {
+                remainPriority.add(maxPriority);
+                processes.add(ready);
+            }
+        }
+    }
+    private static void prev() {
         int len = priorities.length;
         for (int i = 0; i < len; i++) {
-            list.add(new Process(i, priorities[i]));
+            list.add(new Process(priorities[i], i));
             queue.put(priorities[i], queue.getOrDefault(priorities[i], 0) + 1);
         }
 
