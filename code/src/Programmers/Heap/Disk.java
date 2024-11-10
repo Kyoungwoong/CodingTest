@@ -1,8 +1,7 @@
 package Programmers.Heap;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import javax.lang.model.SourceVersion;
+import java.util.*;
 
 public class Disk {
     private static int[][] jobs = {{0,3},{1,9},{2,6}}; // 9
@@ -21,7 +20,70 @@ public class Disk {
         }
     }
 
+    static class Job implements Comparable<Job> {
+        int requestTime, workingTime;
+
+        public Job(int requestTime, int workingTime) {
+            this.requestTime = requestTime;
+            this.workingTime = workingTime;
+        }
+
+        @Override
+        public int compareTo(Job j) {
+//             if (this.workingTime == j.workingTime) {
+//                 return this.requestTime - j.requestTime;
+//             }
+
+//             return this.workingTime - j.workingTime;
+            if (this.requestTime == j.requestTime) {
+                return this.workingTime - j.workingTime;
+            }
+            return this.requestTime - j.requestTime;
+        }
+    }
+
+
     public static void main(String[] args) {
+//        prev();
+        System.out.println(nov10());
+    }
+
+    private static int nov10() {
+        PriorityQueue<Job> disk = new PriorityQueue<>();
+        int len = jobs.length;
+
+        for(int[] job: jobs) {
+            disk.add(new Job(job[0], job[1]));
+        }
+
+        int time = 0; // 현재 시간
+        int ans = 0; // 처리량 평균 구하기
+        List<Job> execList = new ArrayList<>();
+
+        while (!disk.isEmpty() || !execList.isEmpty()) {
+            // 현재 시간에 요청된 작업을 모두 execList에 추가
+            while (!disk.isEmpty() && time >= disk.peek().requestTime) {
+                execList.add(disk.poll());
+            }
+
+            // 작업을 소요 시간 기준으로 정렬
+            if (!execList.isEmpty()) {
+                Collections.sort(execList, Comparator.comparingInt(job -> job.workingTime));
+                Job exec = execList.remove(0);
+                if (time < exec.requestTime) {
+                    time = exec.requestTime;
+                }
+                time += exec.workingTime;
+                ans += time - exec.requestTime;
+            } else if (!disk.isEmpty()) {
+                time = disk.peek().requestTime;
+            }
+        }
+
+        return ans / len;
+    }
+
+    private static void prev() {
         // 요청시간이 빠른 것부터 정렬
         Arrays.sort(jobs, Comparator.comparingInt(a -> a[0]));
         PriorityQueue<Process> pq = new PriorityQueue<>();
