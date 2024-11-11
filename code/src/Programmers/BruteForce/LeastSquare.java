@@ -6,6 +6,21 @@ public class LeastSquare {
 //    private static int[][] sizes = {{14, 4}, {19, 6}, {6, 16}, {18, 7}, {7, 11}}; // 133
 
     public static void main(String[] args) {
+//        prev();
+        System.out.println(nov11());
+    }
+
+    private static int nov11() {
+        int row = -1, col = -1;
+        for(int[] size: sizes) {
+            row = Math.max(row, Math.max(size[0], size[1]));
+            col = Math.max(col, Math.min(size[0], size[1]));
+        }
+
+        return row * col;
+    }
+
+    private static void prev() {
         int maxNum = Integer.MIN_VALUE, col = Integer.MIN_VALUE;
 
         for (int[] card : sizes) {
@@ -20,6 +35,5 @@ public class LeastSquare {
         }
 
         System.out.println("answer = " + (maxNum * col));
-
     }
 }

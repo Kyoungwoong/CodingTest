@@ -26,6 +26,42 @@ public class Moi {
     }
 
     public static void main(String[] args) {
+//        prev();
+        int[] ans = nov11();
+    }
+
+    private static int[] nov11() {
+        int[][] omr = {
+                {1, 2, 3, 4, 5},
+                {2, 1, 2, 3, 2, 4, 2, 5},
+                {3, 3, 1, 1, 2, 2, 4, 4, 5, 5}
+        };
+
+        int[] correctCount = new int[3]; // 정답 수를 저장할 배열
+
+        for (int i = 0; i < answers.length; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (omr[j][i % omr[j].length] == answers[i]) {
+                    correctCount[j]++;
+                }
+            }
+        }
+
+        // 최대 정답 수 찾기
+        int maxCorrect = Arrays.stream(correctCount).max().getAsInt();
+
+        // 최대 정답 수와 일치하는 사람을 리스트에 추가
+        List<Integer> answer = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            if (correctCount[i] == maxCorrect) {
+                answer.add(i + 1); // 사람 번호는 1부터 시작하므로 i + 1
+            }
+        }
+
+        return answer.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    private static void prev() {
         int[][] omr = {
                 {1, 2, 3, 4, 5},
                 {2, 1, 2, 3, 2, 4, 2, 5},
