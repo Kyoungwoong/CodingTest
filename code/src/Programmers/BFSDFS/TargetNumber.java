@@ -24,6 +24,39 @@ public class TargetNumber {
     }
 
     public static void main(String[] args) {
+//        prev();
+        int ans = nov20();
+    }
+
+    private static int[] arr;
+    private static int targetNumber;
+
+    public static void findTargetNum(int num, int cnt) {
+        if (num == targetNumber && cnt == arr.length) {
+            answer++;
+            return;
+        }
+        if (cnt >= arr.length) return;
+
+        findTargetNum(num - arr[cnt], cnt + 1);
+        findTargetNum(num + arr[cnt], cnt + 1);
+    }
+    private static int nov20() {
+        int n = numbers.length;
+        arr = new int[n];
+        targetNumber = target;
+
+        for(int i = 0; i < n; i++) {
+            arr[i] = numbers[i];
+        }
+
+        findTargetNum(-1 * arr[0], 1);
+        findTargetNum(arr[0], 1);
+
+        return answer;
+    }
+
+    private static void prev() {
         int len = numbers.length;
         findNumber(-1 * numbers[0], 1, len, target);
         findNumber(1 * numbers[0], 1, len, target);

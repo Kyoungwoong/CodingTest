@@ -31,6 +31,33 @@ public class Network {
     }
 
     public static void main(String[] args) {
+//        prev();
+        int ans = nov20();
+    }
+
+    public static void dfs(int n, int start, int[][] computers) {
+        visited[start] = true;
+        for(int i = 0; i < n; i++) {
+            if (i == start) continue;
+            if (!visited[i] && computers[start][i] == 1) {
+                dfs(n, i, computers);
+            }
+        }
+    }
+
+    private static int nov20() {
+        visited = new boolean[n];
+        for(int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                dfs(n, i, computers);
+                answer++;
+            }
+        }
+
+        return answer;
+    }
+
+    private static void prev() {
         visited = new boolean[n];
 
         for (int i = 0; i < n; i++) {
