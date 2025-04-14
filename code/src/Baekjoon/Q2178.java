@@ -58,6 +58,50 @@ public class Q2178 {
     }
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        prepareNaver();
+    }
+
+    public static void prepareNaver() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        map = new int[N][M];
+        step = new int[N][M];
+        visited = new boolean[N][M];
+
+        for (int i = 0; i < N; i++) {
+            String line = br.readLine();
+            for (int j = 0; j < M; j++) {
+                map[i][j] = line.charAt(j) - '0';
+            }
+        }
+
+        Queue<Dot> q = new LinkedList<>();
+        q.add(new Dot(0, 0));
+        visited[0][0] = true;
+        int[] dx = {-1, 0, 1, 0};
+        int[] dy = {0, 1, 0, -1};
+
+        while (!q.isEmpty()) {
+            Dot cur = q.poll();
+
+            for (int i = 0; i < 4; i++) {
+                int nextX = cur.x + dx[i];
+                int nextY = cur.y + dy[i];
+                if (canGo(nextX, nextY)) {
+                    step[nextX][nextY] = step[cur.x][cur.y] + 1;
+                    visited[nextX][nextY] = true;
+                    q.add(new Dot(nextX, nextY));
+                }
+            }
+        }
+
+        System.out.println(step[N - 1][M - 1] + 1);
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
@@ -76,6 +120,5 @@ public class Q2178 {
         bfs();
 
         System.out.println(step[N - 1][M - 1]);
-
     }
 }

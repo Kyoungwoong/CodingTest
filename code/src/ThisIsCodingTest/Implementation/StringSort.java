@@ -32,6 +32,7 @@ public class StringSort {
             }
         }
         Collections.sort(arr);
+        System.out.println(String.valueOf(arr.stream().toArray()));
 
         StringBuilder sb = new StringBuilder();
         for (Character word : arr) {

@@ -19,21 +19,24 @@ public class Gaemi {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
         arr = new int[N];
-        dp = new int[N];
+        dp = new int[N + 1];
         StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
         // i번째 도착했을 때 얻을 수 있는 최대값.
-        dp[0] = arr[0];
-        dp[1] = arr[1];
-        dp[2] = arr[0] + arr[2];
-        for (int i = 3; i < N; i++) {
-            dp[i] = Math.max(dp[i-2] + arr[i], dp[i-3] + arr[i]);
+        dp[0] = 0;
+        dp[1] = arr[0];
+        for (int i = 2; i <= N; i++) {
+            dp[i] = Math.max(dp[i - 2] + arr[i - 1], dp[i - 1]);
         }
 
-        System.out.println("dp[N-1] = " + dp[N - 1]);
+        for (int i = 0; i <= N; i++) {
+            System.out.print(dp[i] + " ");
+        }
+
+        System.out.println("dp[N] = " + dp[N]);
     }
 
     private static void prev() throws IOException {

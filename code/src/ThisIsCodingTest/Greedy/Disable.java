@@ -26,19 +26,24 @@ public class Disable {
         for (int i = 0; i < N; i++) {
             coins.add(Integer.parseInt(st.nextToken()));
         }
-//        Collections.sort(coins);
+        Collections.sort(coins);
         /*
         0, 0-1, 0-1-2, 0-1-2...N/
         1,
         N
          */
-        recursive();
-
-        int cur = 1;
-        while (bucket.contains(cur)) {
-            cur++;
+//        recursive();
+        int target = 1;
+        int i = 0;
+        while (true) {
+            if (target < coins.get(i)) {
+                System.out.println(target);
+                break;
+            }
+            target += coins.get(i);
+            System.out.println("target = " + target);
+            i++;
         }
-        System.out.println("cur = " + cur);
     }
 
     public static void recursive() {

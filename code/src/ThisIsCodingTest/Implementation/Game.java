@@ -57,13 +57,13 @@ public class Game {
         int ans = 1;
         map[0][0] = 2;
         boolean flag = false;
-        while(true) {
+//        while(true) {
             flag = false;
             for (int i = 0; i < 3; i++) {
                 dir = (dir - 1 + 4) % 4; // 0 => 3, 1 => 0, 2 => 1, 3 => 2
-                int nextX = x + dx[dir];
-                int nextY = y + dy[dir];
-                System.out.print("dir: " + dir + " (nextX, nextY) = " + "("+ nextX+", " + nextY+")");
+                int nextX = x + dx[i];
+                int nextY = y + dy[i];
+                System.out.print("dir: " + dir + " (x, y) = " + "("+ x+", " + y+")");
                 if (canGo(nextX, nextY)) {
                     System.out.println("\t YES");
                     x = nextX;
@@ -71,20 +71,20 @@ public class Game {
                     map[x][y] = 2;
                     ans++;
                     flag = true;
-                    break;
+//                    break;
                 }
                 System.out.println();
             }
-            if (!flag) {
-                // 0 => 2, 1 => 3, 2 => 0, 3 => 1
-                int opp = (dir + 2) % 4;
-                int nextX = x + dx[opp];
-                int nextY = y + dy[opp];
-                if (isRange(nextX, nextY) && map[nextX][nextY] == 1) {
-                    break;
-                }
-            }
-        }
+//            if (!flag) {
+//                // 0 => 2, 1 => 3, 2 => 0, 3 => 1
+//                int opp = (dir + 2) % 4;
+//                int nextX = x + dx[opp];
+//                int nextY = y + dy[opp];
+//                if (isRange(nextX, nextY) && map[nextX][nextY] == 1) {
+//                    break;
+//                }
+//            }
+//        }
         System.out.println("ans = " + ans);
     }
 

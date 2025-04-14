@@ -10,7 +10,7 @@ public class QuickSort {
         arr[b] = temp;
     }
 
-    public static int partition(int s, int e) {
+    public static int partition_rvalue(int s, int e) {
         int left = s, right = e - 1, pivot = arr[e];
 
         while (left < right) {
@@ -26,9 +26,30 @@ public class QuickSort {
         return right;
     }
 
+    public static int partition_lvalue(int s, int e) {
+        int left = s + 1, right = e, pivot = arr[s];
+
+        while (left <= right) {
+            while (left <= right && arr[left] <= pivot) {
+                left++;
+            }
+            while (left <= right && arr[right] >= pivot) {
+                right--;
+            }
+
+            if (left < right) {
+                swap(left, right);
+            }
+        }
+
+        swap(s, right); // 피벗과 right 위치 교환 (right이 새로운 피벗 위치)
+        return right; // 새 피벗 위치 반환
+    }
+
     public static void quickSort(int s, int e) {
         if (s < e) {
-            int idx = partition(s, e);
+//            int idx = partition_rvalue(s, e);
+            int idx = partition_lvalue(s, e);
 
             quickSort(s, idx - 1);
             quickSort(idx + 1, e);

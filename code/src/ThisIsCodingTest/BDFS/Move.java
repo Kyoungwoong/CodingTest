@@ -108,12 +108,12 @@ public class Move {
                 }
             }
 
-//            for (int i = 0; i < N; i++) {
-//                for (int j = 0; j < N; j++) {
-//                    System.out.print(land[i][j] + " ");
-//                }
-//                System.out.println();
-//            }
+            for (int i = 0; i < N; i++) {
+                for (int j = 0; j < N; j++) {
+                    System.out.print(land[i][j] + " ");
+                }
+                System.out.println();
+            }
             cnt++;
         }
         System.out.println("cnt = " + cnt);

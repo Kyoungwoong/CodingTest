@@ -24,14 +24,14 @@ public class KEM {
             if (this.Korean == s.Korean) {
                 if (this.English == s.English) {
                     if (this.Math == s.Math) {
-                        return s.name.compareTo(this.name);
+                        return this.name.compareTo(s.name);
                     }
-                    return this.Math - s.Math;
+                    return s.Math - this.Math;
                 }
-//            return this.English - s.English;
-                return s.English - this.English;
+            return this.English - s.English;
+//                return s.English - this.English;
             }else{
-                return this.Korean - s.Korean;
+                return s.Korean - this.Korean;
             }
         }
     }

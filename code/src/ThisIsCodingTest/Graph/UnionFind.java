@@ -41,6 +41,11 @@ public class UnionFind {
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
             union(a, b);
+            System.out.println("a: " + a + " b: " + b);
+            for (int j = 0; j <= n; j++) {
+                System.out.print(parent[j] + " ");
+            }
+            System.out.println();
         }
 
         System.out.println("루트 테이블 내용 출력: ");

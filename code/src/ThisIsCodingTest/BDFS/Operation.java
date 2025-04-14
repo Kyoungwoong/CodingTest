@@ -101,6 +101,36 @@ public class Operation {
         }
     }
 
+    public static void febDfs(int count, int num) {
+        if (count == N) {
+            MAX_VALUE = Math.max(MAX_VALUE, num);
+            MIN_VALUE = Math.min(MIN_VALUE, num);
+            return;
+        }
+
+        if (opcode[0] > 0) {
+            opcode[0]--;
+            febDfs(count+1, num + arr.get(count));
+            opcode[0]++;
+        }
+        if (opcode[1] > 0) {
+            opcode[1]--;
+            febDfs(count+1, num - arr.get(count));
+            opcode[1]++;
+        }
+        if (opcode[2] > 0) {
+            opcode[2]--;
+            febDfs(count+1, num * arr.get(count));
+            opcode[2]++;
+        }
+        if (opcode[3] > 0) {
+            opcode[3]--;
+            febDfs(count+1, num / arr.get(count));
+            opcode[3]++;
+        }
+
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
@@ -120,7 +150,8 @@ public class Operation {
 
         // 순열(ㅈㅐ귀) 어떻게 하는지 노션 찾아보기 => 모든 상황
 //        dfs(1, arr.get(0));
-        myDfs(1);
+//        myDfs(1);
+        febDfs(1, arr.get(0));
         System.out.println(MAX_VALUE);
         System.out.println(MIN_VALUE);
     }
