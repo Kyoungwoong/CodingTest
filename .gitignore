@@ -158,3 +158,6 @@ CodingTest.iml
 .DS_Store
 code/.DS_Store
 code/src/CodeTree/.DS_Store
+
+code/src/BitAssign/
+code/src/HW.java
