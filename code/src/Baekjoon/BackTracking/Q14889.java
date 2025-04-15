@@ -3,9 +3,7 @@ package Baekjoon.BackTracking;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Q14889 {
     public static int N, ans = Integer.MAX_VALUE;
@@ -73,6 +71,71 @@ public class Q14889 {
     }
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        april15();
+    }
+
+    private static Set<Integer> visited = new HashSet<>();
+    private static void april15() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+        board = new int[N][N];
+
+        StringTokenizer st;
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < N; j++) {
+                board[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        start.add(0);
+        visited.add(0);
+        dfs(1, 1);
+        System.out.println(ans);
+    }
+
+    private static void dfs(int cnt, int size) {
+        if (size == N / 2) {
+            List<Integer> link = new ArrayList<>();
+            for (int i = 0; i < N; i++) {
+                if (!visited.contains(i)) link.add(i);
+            }
+
+            int startTotal = 0;
+            int linkTotal = 0;
+
+            // 점수 계산 (i < j 조건으로 중복 방지)
+            for (int i = 0; i < N; i++) {
+                for (int j = i + 1; j < N; j++) {
+                    if (visited.contains(i) && visited.contains(j)) {
+                        startTotal += board[i][j] + board[j][i];
+                    } else if (!visited.contains(i) && !visited.contains(j)) {
+                        linkTotal += board[i][j] + board[j][i];
+                    }
+                }
+            }
+
+            ans = Math.min(ans, Math.abs(startTotal - linkTotal));
+            return;
+        }
+
+        for (int i = cnt; i < N; i++) {
+            if (visited.contains(i)) {
+                continue;
+            }
+
+            start.add(i);
+            visited.add(i);
+
+            dfs(i + 1, size + 1);
+
+            start.remove(start.size() - 1);
+            visited.remove(i);
+        }
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
         board = new int[N][N];
