@@ -27,6 +27,34 @@ public class Q2579 {
 
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        april16();
+    }
+
+    private static void april16() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        int[] dp = new int[n + 1]; // 0 열은 현재 칸을 밟은 경우 1열은 현재 칸을 안밟은 경우
+        int[] stair = new int[n + 1];
+        for (int i = 0; i < n; i++) {
+            int num = Integer.parseInt(br.readLine());
+            stair[i + 1] = num;
+        }
+
+        dp[1] = stair[1];
+        if (n == 1) {
+            System.out.println(dp[1]);
+            return;
+        }
+        dp[2] = dp[1] + stair[2];
+
+        for (int i = 3; i <= n; i++) {
+            dp[i] = Math.max(dp[i - 2], dp[i - 3] + stair[i - 1]) + stair[i];
+        }
+        System.out.println(dp[n]);
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
         stairs = new int[N];
