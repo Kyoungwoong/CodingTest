@@ -67,7 +67,18 @@ public class Q9251 {
         lenA = A.length();
         lenB = B.length();
 
-        LCS();
+//        LCS();
+        dp = new int[lenB + 1][lenA + 1];
+
+        for (int i = 1; i <= lenB; i++) {
+            for (int j = 1; j <= lenA; j++) {
+                if (A.charAt(j - 1) == B.charAt(i - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
 
         System.out.println(dp[lenB][lenA]);
     }
