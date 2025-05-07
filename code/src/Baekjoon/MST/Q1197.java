@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Q1197 {
@@ -52,6 +53,42 @@ public class Q1197 {
     }
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        may7();
+    }
+
+    private static void may7() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        V = Integer.parseInt(st.nextToken());
+        E = Integer.parseInt(st.nextToken());
+        parent = new int[V + 1];
+        init();
+
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        for (int i = 0; i < E; i++) {
+            st = new StringTokenizer(br.readLine());
+            int src = Integer.parseInt(st.nextToken());
+            int desc = Integer.parseInt(st.nextToken());
+            int value = Integer.parseInt(st.nextToken());
+            pq.add(new Node(src, desc, value));
+        }
+
+        int ans = 0;
+        while (!pq.isEmpty()) {
+            Node cur = pq.poll();
+            int src = cur.src;
+            int desc = cur.dest;
+
+            if (findParent(src) != findParent(desc)) {
+                union(src, desc);
+                ans += cur.cost;
+            }
+        }
+        System.out.println(ans);
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         V = Integer.parseInt(st.nextToken());
