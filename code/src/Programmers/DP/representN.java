@@ -35,6 +35,12 @@ public class representN {
                     }
                 }
 
+                System.out.print("i: " + i + " -> ");
+                for (int num : dp.get(i)) {
+                    System.out.print(num + " ");
+                }
+                System.out.println();
+
                 if (dp.get(i).contains(number)) {
                     return i;
                 }
