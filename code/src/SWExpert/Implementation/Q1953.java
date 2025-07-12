@@ -53,39 +53,66 @@ public class Q1953 {
             }
 
             set = new HashSet<>();
-            bfs(R, C);
-            sb.append("#").append(t).append(" ").append(set.size()).append("\n");
+            int ans = bfs(R, C);
+//            sb.append("#").append(t).append(" ").append(set.size()).append("\n");
+            sb.append("#").append(t).append(" ").append(ans).append("\n");
         }
         System.out.println(sb);
     }
 
-    private static void bfs(int x, int y) {
+//    private static void bfs(int x, int y) {
+//        boolean[][] visited = new boolean[N][M];
+//        Queue<Pair> q = new LinkedList<>();
+//        q.add(new Pair(x, y, 1));
+//        visited[x][y] = true;
+//        set.add(x * M + y);
+//
+//        while (!q.isEmpty()) {
+//            Pair cur = q.poll();
+//            int curX = cur.x;
+//            int curY = cur.y;
+//            if (cur.t > L) {
+//                continue;
+//            } else {
+//                visited[curX][curY] = true;
+//                set.add(curX * M + curY);
+//            }
+//
+//            int[] idx = dir[map[curX][curY]];
+//            for (int dir : idx) {
+//                int nx = curX + dx[dir];
+//                int ny = curY + dy[dir];
+//                if (canGo(nx, ny, visited, dir)) {
+//                    q.add(new Pair(nx, ny, cur.t + 1));
+//                }
+//            }
+//        }
+//    }
+
+    private static int bfs(int x, int y) {
         boolean[][] visited = new boolean[N][M];
+        visited[x][y] = true;
         Queue<Pair> q = new LinkedList<>();
         q.add(new Pair(x, y, 1));
-        visited[x][y] = true;
-        set.add(x * M + y);
+        int cnt = 1;
 
         while (!q.isEmpty()) {
             Pair cur = q.poll();
-            int curX = cur.x;
-            int curY = cur.y;
-            if (cur.t > L) {
-                continue;
-            } else {
-                visited[curX][curY] = true;
-                set.add(curX * M + curY);
-            }
 
-            int[] idx = dir[map[curX][curY]];
-            for (int dir : idx) {
-                int nx = curX + dx[dir];
-                int ny = curY + dy[dir];
+            if (cur.t >= L) continue;
+
+            for (int dir : dir[map[cur.x][cur.y]]) {
+                int nx = cur.x + dx[dir];
+                int ny = cur.y + dy[dir];
+
                 if (canGo(nx, ny, visited, dir)) {
+                    visited[nx][ny] = true; // 방문 처리
+                    cnt++;
                     q.add(new Pair(nx, ny, cur.t + 1));
                 }
             }
         }
+        return cnt;
     }
 
     private static boolean canGo(int x, int y, boolean[][] visited, int fromDir) {

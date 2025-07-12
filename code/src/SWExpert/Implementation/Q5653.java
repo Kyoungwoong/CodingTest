@@ -78,15 +78,16 @@ public class Q5653 {
 
             int sum = 0;
             for (int i = 0; i <= K + 10; i++) {
-//                System.out.print("t: " + i + "\t\t");
+                System.out.print("k: " + i + "\t\t");
                 for (Pair p : timeList.get(i)) {
-//                    System.out.print(" (" + p.x + ", " + p.y + ", " + p.c + ")\t");
+                    System.out.print(" (" + p.x + ", " + p.y + ", " + p.c + ")\t");
                     if ( i + p.c > K && i - p.c <= K) {
+//                    if (i + 2 * p.c >= K) {
 //                        System.out.print(" (" + p.x + ", " + p.y + ", " + p.c + ")\t");
                         sum++;
                     }
                 }
-//                System.out.println();
+                System.out.println();
             }
 
             sb.append("#").append(t).append(" ").append(sum).append("\n");
@@ -100,6 +101,7 @@ public class Q5653 {
             // t가 활성상태.
             Set<Pair> pairs = timeList.get(t);
             List<Pair> collect = pairs.stream().collect(Collectors.toList());
+            // t시간에 활성상태인 세포를 생명력 순으로 내림차순
             Collections.sort(collect);
 
             for (Pair p : collect) {

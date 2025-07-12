@@ -89,6 +89,33 @@ public class Q1949 {
         visited[x][y] = false;
     }
 
+    private static void dfs(int x, int y, int length, int cutCount, boolean[][] visited) {
+        ans = Math.max(ans, length);
+        visited[x][y] = true;
+
+        for (int d = 0; d < 4; d++) {
+            int nx = x + dx[d];
+            int ny = y + dy[d];
+            if (!inRange(nx, ny) || visited[nx][ny]) continue;
+
+            if (mountain[nx][ny] < mountain[x][y]) {
+                dfs(nx, ny, length + 1, cutCount, visited);
+            } else {
+                // 깎을 수 있는 경우
+                if (cutCount < K) {
+                    int original = mountain[nx][ny];
+                    // 제한 없이 깎을 수 있으므로 그냥 현재보다 1 작게
+                    mountain[nx][ny] = mountain[x][y] - 1;
+                    dfs(nx, ny, length + 1, cutCount + 1, visited);
+                    mountain[nx][ny] = original;
+                }
+            }
+        }
+
+        visited[x][y] = false;
+    }
+
+
     private static boolean inRange(int x, int y) {
         return 0 <= x && x < N && 0 <= y && y < N;
     }
