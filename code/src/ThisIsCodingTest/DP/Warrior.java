@@ -77,6 +77,81 @@ public class Warrior {
 
         System.out.println(N - max);
     }
+
+    private static void nov1_Optimized() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        int[] warriors = new int[N];
+
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) {
+            warriors[i] = Integer.parseInt(st.nextToken());
+        }
+
+        // LIS 구하기 위해 배열 뒤집기
+        int[] reversed = new int[N];
+        for (int i = 0; i < N; i++) {
+            reversed[i] = warriors[N - 1 - i];
+        }
+
+        List<Integer> dp = new ArrayList<>();
+        for (int x : reversed) {
+            int idx = lowerBound(dp, x);
+            if (idx == dp.size()) {
+                dp.add(x);
+            } else {
+                dp.set(idx, x);
+            }
+        }
+
+        System.out.println(N - dp.size());
+    }
+
+    // lower_bound: dp에서 처음으로 x 이상이 되는 위치를 찾는 함수
+    private static int lowerBound(List<Integer> list, int target) {
+        int left = 0, right = list.size();
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (list.get(mid) >= target) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    // lower_bound: target 이상인 가장 왼쪽 인덱스
+    public static int lowerBound(int[] arr, int target) {
+        int left = 0, right = arr.length;
+
+        while (left < right) {
+            int mid = (left + right) / 2;
+
+            if (arr[mid] < target) {
+                left = mid + 1;  // target보다 작으면 버림
+            } else {
+                right = mid;     // target 이상이면 mid도 가능성이 있음
+            }
+        }
+        return left;  // 또는 right
+    }
+
+    // upper_bound: target 초과인 가장 왼쪽 인덱스
+    public static int upperBound(int[] arr, int target) {
+        int left = 0, right = arr.length;
+
+        while (left < right) {
+            int mid = (left + right) / 2;
+
+            if (arr[mid] <= target) {
+                left = mid + 1;  // target 이하이므로 mid는 제외
+            } else {
+                right = mid;     // target 초과 → 후보
+            }
+        }
+        return left;  // 또는 right
+    }
 }
 /*
 7
