@@ -11,8 +11,45 @@ public class StringComp {
 
     public static void main(String[] args) throws IOException {
 //        prev();
-        oct30();
+//        oct30();
 
+        extracted();
+    }
+
+    private static void extracted() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String S = br.readLine();
+        int len = S.length();
+
+        int minCompressedLength = len;
+
+        for (int unit = 1; unit <= len / 2; unit++) {
+            StringBuilder compressed = new StringBuilder();
+            String prev = S.substring(0, unit);
+            int count = 1;
+
+            for (int j = unit; j < len; j += unit) {
+                int end = Math.min(j + unit, len);
+                String curr = S.substring(j, end);
+
+                if (prev.equals(curr)) {
+                    count++;
+                } else {
+                    if (count > 1) compressed.append(count);
+                    compressed.append(prev);
+                    prev = curr;
+                    count = 1;
+                }
+            }
+
+            // 마지막 덩어리 처리
+            if (count > 1) compressed.append(count);
+            compressed.append(prev);
+
+            minCompressedLength = Math.min(minCompressedLength, compressed.length());
+        }
+
+        System.out.println(minCompressedLength);
     }
 
     private static void oct30() throws IOException {

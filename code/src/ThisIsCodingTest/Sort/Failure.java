@@ -56,6 +56,7 @@ public class Failure {
             hashFailure.put(stages[i], hashFailure.getOrDefault(stages[i], 0) + 1);
         }
 
+        ans = new Stage[N];
         for (int i = 1; i <= N; i++) {
             ans[i-1] = new Stage(i, hashFailure.getOrDefault(i, 0) / (double) K);
             K -= hashFailure.getOrDefault(i, 0);

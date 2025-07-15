@@ -20,11 +20,11 @@ public class MulSum {
 
         int ans = 0;
         for (int i = 0; i < len; i++) {
-            if (S.charAt(i) != '0' || S.charAt(i) != '1') {
-                if (ans != 0) {
-                    ans *= S.charAt(i) - '0';
-                } else {
+            if (S.charAt(i) != '0' && S.charAt(i) != '1') {
+                if (ans == 0) {
                     ans += S.charAt(i) - '0';
+                } else {
+                    ans *= S.charAt(i) - '0';
                 }
             } else {
                 ans += S.charAt(i) - '0';
