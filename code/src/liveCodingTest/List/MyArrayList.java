@@ -4,12 +4,21 @@ import java.util.Arrays;
 
 public class MyArrayList<T> implements MyList<T> {
 
-    private int CAPACITY = 10;
+    private static final int DEFAULT_CAPACITY = 10;
+
     private T[] store;
     private int size = 0;
 
+    @SuppressWarnings("unchecked")
     public MyArrayList() {
-        this.store = (T[]) new Object[this.CAPACITY];
+        this.store = (T[]) new Object[DEFAULT_CAPACITY];
+    }
+
+    private void ensureCapacity() {
+        if (size == store.length) {
+            int newCapacity = store.length * 2;
+            store = Arrays.copyOf(store, newCapacity);
+        }
     }
 
     @Override
@@ -24,85 +33,68 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     public void add(T element) {
-        if (this.CAPACITY == this.size) {
-            // 사이즈가 넘으면 배열 크기 더 길게
-            this.CAPACITY *= 2;
-            T[] nextStore = (T[]) new Object[this.CAPACITY];
-            // Arrays.copyOf(store, nextStore, 0, this.size);
-            for (int i = 0; i < this.size; i++) {
-                nextStore[i] = store[i];
-            }
-            this.store = nextStore;
-        }
-        // 추가가 되면 그냥 추가
-        this.store[this.size] = element;
-        this.size++;
+        ensureCapacity();
+        store[size++] = element;
     }
 
     @Override
     public void add(int index, T element) {
-        // 사이즈 확인
-        if (this.CAPACITY == this.size) {
-            this.CAPACITY *= 2;
-            T[] nextStore = (T[]) new Object[this.CAPACITY];
-            for (int i = 0; i < this.size; i++) {
-                nextStore[i] = store[i];
-            }
-            this.store = nextStore;
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("index: " + index);
         }
 
-        this.size++;
-        for (int i = this.size - 1; i >= 0; i--) {
-            if (index == i) {
-                this.store[i] = element;
-                break;
-            } else {
-                this.store[i] = this.store[i - 1];
-            }
+        ensureCapacity();
+
+        // 뒤에서부터 한 칸씩 밀기
+        for (int i = size; i > index; i--) {
+            store[i] = store[i - 1];
         }
+        store[index] = element;
+        size++;
     }
 
     @Override
     public T get(int index) {
-        if (index >= this.size) {
-            return null;
+        if (index < 0 || index >= this.size) {
+            throw new IndexOutOfBoundsException("index: " + index);
         }
         return this.store[index];
     }
 
     @Override
     public T remove(int index) {
-        T removedItem = get(index);
-        if (removedItem != null) {
-            for (int i = index; i < this.size; i++) {
-                this.store[i] = this.store[i + 1];
-            }
-            this.store[this.size] = null;
-            this.size--;
+        if (index < 0 || index >= this.size) {
+            throw new IndexOutOfBoundsException("index: " + index);
         }
+
+        T removedItem = store[index];
+
+        // 앞으로 당기기
+        for (int i = index; i < size - 1; i++) {
+            store[i] = store[i + 1];
+        }
+
+        store[size - 1] = null;
+        size--;
+
         return removedItem;
     }
 
     @Override
     public boolean remove(T element) {
-        int removeSize = 0;
-        for (int i = this.size - 1; i >= 0; i--) {
-            if (this.store[i] == element) {
-                for (int j = i + 1; j < this.size - 1; j++) {
-                    this.store[j - 1] = this.store[j];
-                }
-                removeSize++;
-                this.store[this.size - removeSize] = null;
+        for (int i = 0; i < size; i++) {
+            if (element == null ? store[i] == null : element.equals(store[i])) {
+                remove(i);
+                return true;
             }
         }
-        this.size -= removeSize;
         return false;
     }
 
     @Override
     public void clear() {
+        Arrays.fill(this.store, 0, size, null); // size까지만 비워도 충분
         this.size = 0;
-        Arrays.fill(this.store, null);
     }
 
     public void print() {

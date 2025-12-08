@@ -2,11 +2,11 @@ package liveCodingTest.List;
 
 public class MyLinkedList<T> implements MyList<T> {
 
-    private Node head = null, tail = null;
+    private Node<T> head = null, tail = null;
     private int size = 0;
     static class Node<T> {
         T item;
-        Node next = null;
+        Node<T> next = null;
 
         public Node(T item) {
             this.item = item;
@@ -25,7 +25,7 @@ public class MyLinkedList<T> implements MyList<T> {
 
     @Override
     public void add(T element) {
-        Node<T> newNode = new Node(element);
+        Node<T> newNode = new Node<>(element);
         if (head == null) {
             head = newNode;
         } else {
@@ -37,11 +37,20 @@ public class MyLinkedList<T> implements MyList<T> {
 
     @Override
     public void add(int index, T element) {
-        Node<T> newNode = new Node(element);
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("index: " + index);
+        }
+
+        Node<T> newNode = new Node<>(element);
         if (index == 0) {
-            // head 인 경우
             newNode.next = head;
             head = newNode;
+            if (size == 0) {            // 처음 넣을 때 tail 처리
+                tail = newNode;
+            }
+        } else if (index == size) {     // 맨 뒤에 추가
+            tail.next = newNode;
+            tail = newNode;
         } else {
             Node<T> curNode = head;
             for (int i = 0; i < index - 1; i++) {
@@ -55,8 +64,8 @@ public class MyLinkedList<T> implements MyList<T> {
 
     @Override
     public T get(int index) {
-        if (index >= this.size) {
-            return null;
+        if (index < 0 || index >= this.size) {
+            throw new IndexOutOfBoundsException("index: " + index);
         }
 
         Node<T> curNode = head;
@@ -68,21 +77,29 @@ public class MyLinkedList<T> implements MyList<T> {
 
     @Override
     public T remove(int index) {
-        if (index >= this.size) {
-            return null;
+        if (index < 0 || index >= this.size) {
+            throw new IndexOutOfBoundsException("index: " + index);
         }
 
-        T removedItem = null;
+        T removedItem;
         if (index == 0) {
-            removedItem = (T) head.item;
+            removedItem = head.item;
             head = head.next;
+            if (head == null) {     // list가 비어버린 경우
+                tail = null;
+            }
         } else {
             Node<T> curNode = head;
             for (int i = 0; i < index - 1; i++) {
                 curNode = curNode.next;
             }
-            removedItem = (T) curNode.next.item;
-            curNode.next = curNode.next.next;
+            Node<T> target = curNode.next;
+            removedItem = target.item;
+            curNode.next = target.next;
+
+            if (target == tail) {   // 마지막 원소 삭제 시 tail 이동
+                tail = curNode;
+            }
         }
         this.size--;
         return removedItem;
@@ -90,23 +107,44 @@ public class MyLinkedList<T> implements MyList<T> {
 
     @Override
     public boolean remove(T element) {
-        Node<T> curNode = head;
-        int removedSize = 0;
-        while (!curNode.equals(tail)) {
-            if (curNode.next.item.equals(element)) {
-                // 다음게 같을 때
-                curNode.next = curNode.next.next;
-                removedSize++;
+        if (head == null) {
+            return false;
+        }
+
+        boolean removed = false;
+
+        // head부터 같은 값 제거
+        while (head != null &&
+                (head.item == element || (head.item != null && head.item.equals(element)))) {
+            head = head.next;
+            size--;
+            removed = true;
+        }
+
+        if (head == null) {
+            tail = null;
+            return removed;
+        }
+
+        Node<T> prev = head;
+        Node<T> cur = head.next;
+
+        while (cur != null) {
+            if (cur.item == element || (cur.item != null && cur.item.equals(element))) {
+                prev.next = cur.next;
+                size--;
+                removed = true;
+                if (cur == tail) {      // tail 갱신
+                    tail = prev;
+                }
+                cur = prev.next;
             } else {
-                curNode = curNode.next;
+                prev = cur;
+                cur = cur.next;
             }
         }
-        if (head.item.equals(element)) {
-            head = head.next;
-            removedSize++;
-        }
-        this.size -= removedSize;
-        return true;
+
+        return removed;
     }
 
     @Override
