@@ -1,0 +1,47 @@
+package liveCodingTest.Backtracking.comb;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Q15650 {
+    static int N, M;
+    static BufferedReader br;
+    static StringTokenizer st;
+    static StringBuilder sb = new StringBuilder();
+    static boolean[] visited;
+
+    public static void main(String[] args) throws IOException {
+        input();
+
+        comb(0, 1, new ArrayList<>());
+        System.out.println(sb.toString());
+    }
+
+    private static void comb(int depth, int pos, List<Integer> list) {
+        if (depth == M) {
+            for (int item : list) {
+                sb.append(item).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+
+        for (int i = pos; i <= N; i++) {
+            list.add(i);
+            comb(depth + 1, i + 1, list);
+            list.remove(list.size() - 1);
+        }
+    }
+
+    private static void input() throws IOException {
+        br = new BufferedReader(new InputStreamReader(System.in));
+        st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        visited = new boolean[N + 1];
+    }
+}
