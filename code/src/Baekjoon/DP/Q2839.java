@@ -12,6 +12,30 @@ public class Q2839 {
     private static final int INVALID = Integer.MAX_VALUE;
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        newProblem();
+    }
+
+    private static void newProblem() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        weights = new int[N + 1];
+        Arrays.fill(weights, INVALID);
+        weights[0] = 0;
+
+        for (int i = 3; i <= N; i++) {
+            if (weights[i - 3] != INVALID) {
+                weights[i] = Math.min(weights[i], weights[i - 3] + 1);
+            }
+            if (i-5 >= 0 && weights[i - 5] != INVALID) {
+                weights[i] = Math.min(weights[i], weights[i - 5] + 1);
+            }
+        }
+
+        System.out.println(weights[N] == INVALID ? -1 : weights[N]);
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
         weights = new int[N + 1];
