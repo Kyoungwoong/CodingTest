@@ -28,7 +28,34 @@ public class Q2579 {
 
     public static void main(String[] args) throws IOException {
 //        prev();
-        april16();
+//        april16();
+        jan29();
+    }
+
+    private static void jan29() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        int[] score = new int[N + 1];
+        for (int i = 1; i <= N; i++) {
+            score[i] = Integer.parseInt(br.readLine());
+        }
+
+        /**
+         * 계단은 한 번에 한 계단씩 또는 두 계단씩 오를 수 있다. 즉, 한 계단을 밟으면서 이어서 다음 계단이나, 다음 다음 계단으로 오를 수 있다.
+         * 연속된 세 개의 계단을 모두 밟아서는 안 된다. 단, 시작점은 계단에 포함되지 않는다.
+         * 마지막 도착 계단은 반드시 밟아야 한다.
+         */
+        int[] dp = new int[N + 1];
+
+        // 기본값 처리
+        dp[1] = score[1];
+        if (N >= 2) dp[2] = score[1] + score[2];
+
+        for (int i = 3; i <= N; i++) {
+            dp[i] = Math.max(dp[i - 2], dp[i - 3] + score[i - 1]) + score[i];
+        }
+
+        System.out.println(dp[N]);
     }
 
     private static void april16() throws IOException {
