@@ -21,6 +21,38 @@ public class Q1932 {
     }
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        jan29();
+    }
+
+    private static void jan29() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
+        arr = new int[N][N];
+        dp = new int[N][N];
+        StringTokenizer st;
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j <= i; j++) {
+                arr[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        init();
+        for (int i = 2; i < N; i++) {
+            for (int j = 1; j <= i - 1; j++) {
+                dp[i][j] = Math.max(dp[i - 1][j - 1], dp[i - 1][j]) + arr[i][j];
+            }
+        }
+
+        int ans = -1;
+        for (int i = 0; i < N; i++) {
+            ans = Math.max(ans, dp[N - 1][i]);
+        }
+        System.out.println(ans);
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
         arr = new int[N][N];
