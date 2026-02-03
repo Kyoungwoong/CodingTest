@@ -53,6 +53,11 @@ public class Q2178 {
     }
 
     public static void main(String[] args) throws IOException {
+//        prev();
+        jan30();
+    }
+
+    private static void prev() throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
@@ -67,4 +72,60 @@ public class Q2178 {
         }
         bfs();
     }
+
+    // 1은 이동할 수 있는 칸을 나타내고, 0은 이동할 수 없는 칸
+    private static void jan30() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        map = new int[N][M];
+        int[][] step = new int[N][M];
+        visited = new boolean[N][M];
+        for (int i = 0; i < N; i++) {
+            String line = br.readLine();
+            for (int j = 0; j < M; j++) {
+                map[i][j] = line.charAt(j) - '0';
+            }
+        }
+
+
+        int[] dx = {-1, 0, 1, 0};
+        int[] dy = {0, 1, 0, -1};
+        Queue<Pair> q = new LinkedList<>();
+        q.add(new Pair(0, 0));
+        visited[0][0] = true;
+        while (!q.isEmpty()) {
+            Pair cur = q.poll();
+
+            for (int dir = 0; dir < 4; dir++) {
+                int nextX = cur.x + dx[dir];
+                int nextY = cur.y + dy[dir];
+                if (canGo(nextX, nextY)) {
+                    visited[nextX][nextY] = true;
+                    q.add(new Pair(nextX, nextY));
+                    step[nextX][nextY] = step[cur.x][cur.y] + 1;
+                }
+            }
+        }
+        System.out.println(step[N - 1][M - 1] + 1);
+    }
+
+    static class Pair {
+        int x, y;
+
+        public Pair(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
 }
+/*
+4 6
+101111
+101010
+101011
+111011
+---
+15
+ */
