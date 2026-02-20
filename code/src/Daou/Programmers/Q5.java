@@ -7,7 +7,7 @@ public class Q5 {
             for(int j = 0; j < 4; j++)
                 for (int k = j + 1; k < 4; k += 2) {
                     answer = Math.max(answer,
-                            Math.max(grid[i][k - 1] + grid[i][k], grid[k - 1][j] + grid[k][j]));
+                            Math.max(grid[i][j] + grid[i][k], grid[j][i] + grid[k][i]));
                 }
         return answer;
     }
