@@ -2,6 +2,9 @@ package Daou.Programmers;
 
 import java.util.*;
 
+/**
+ * https://school.programmers.co.kr/learn/courses/11132/lessons/71157
+ */
 public class Q10 {
     public int solution(int K, String[] words) {
         // 여기에 코드를 작성해주세요.
