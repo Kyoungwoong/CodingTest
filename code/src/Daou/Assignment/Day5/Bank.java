@@ -11,13 +11,14 @@ abstract class Account {
         return this.balance;
     }
 
-    public boolean setBalance(long remain) {
-        if (remain < 0) {
-            return false;
-        }
-        this.balance = remain;
+    protected void decreaseBalance(long amount) {
+        this.balance -= amount;
+    }
 
-        return true;
+    public void deposit(long amount) {
+        if (amount > 0) {
+            this.balance += amount;
+        }
     }
 
     public abstract void withdraw(long amount);
@@ -37,18 +38,18 @@ class BankAccount extends Account implements Transfer {
         super(balance);
     }
 
-    @Override 
+    @Override
     public void withdraw(long amount) {
-        if (amount <= this.getBalance()) {
-            this.setBalance(this.getBalance() - amount);
+        if (amount > 0 && amount <= getBalance()) {
+            decreaseBalance(amount);
         }
     }
 
     @Override
     public void transfer(Account target, long amount) {
-        if (amount <= this.getBalance()) {
+        if (amount > 0 && amount <= getBalance()) {
             withdraw(amount);
-            target.setBalance(this.getBalance() + amount);
+            target.deposit(amount);
         }
     }
 }
