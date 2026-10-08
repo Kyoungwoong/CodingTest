@@ -61,11 +61,11 @@ public class PaymentService {
         } catch (InsufficientBalanceException ib) {
             // InsufficientBalanceException이면
             // "Payment Failed: {message}"
-            System.out.println(ib.getMessage());
+            System.out.println("Payment Failed: " + ib.getMessage());
         } catch (IllegalArgumentException iae) {
             // IllegalArgumentException이면
             // "Invalid Payment: {message}"
-            System.out.println(iae.getMessage());
+            System.out.println("Invalid Payment: " + iae.getMessage());
         }
     }
 
