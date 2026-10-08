@@ -73,6 +73,9 @@ class MemberRepository {
         }
 
         return memberList;
+
+        // 이걸로 한꺼번에 처리할 수 있음
+        // return new ArrayList<>(members.values());
     }
 
     public int count() {
