@@ -68,6 +68,12 @@ public class MemberService {
         result.sort(Comparator.comparing(Member::getAge)
                 .thenComparing(Member::getName));
 
+        // 개선
+        result.sort(
+                Comparator.comparingInt(Member::getAge)
+                        .thenComparing(Member::getName)
+        );
+
         return result;
     }
 
@@ -81,8 +87,12 @@ public class MemberService {
 
     public static void printMembers(List<Member> members) {
         members.forEach(member -> {
-            System.out.println(member);
+            System.out.print(member + "\t");
         });
+        System.out.println();
+
+        // 개선
+        // members.forEach(System.out::println);
     }
 
     public static void main(String[] args) {
