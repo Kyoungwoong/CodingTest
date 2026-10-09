@@ -1,18 +1,18 @@
 package Daou.Assignment.Day4;
 
-class Animal {
+class ZooAnimal {
     void eat() {
         System.out.println("Animal EAT");
     }
 }
 
-class Dog extends Animal {
+class ZooDog extends ZooAnimal {
     void bark() {
         System.out.println("Dog BARK");
     }
 }
 
-class Cat extends Animal {
+class ZooCat extends ZooAnimal {
     void meow() {
         System.out.println("Cat MEOW");
     }
@@ -20,15 +20,15 @@ class Cat extends Animal {
 
 public class Zoo {
     public static void main(String[] args) {
-        process(new Dog());
-        process(new Cat());
-        process(new Animal());
+        process(new ZooDog());
+        process(new ZooCat());
+        process(new ZooAnimal());
     }
 
-    private static void process(Animal animal) {
-        if (animal instanceof Dog dog) {
+    private static void process(ZooAnimal animal) {
+        if (animal instanceof ZooDog dog) {
             dog.bark();
-        } else if (animal instanceof Cat cat) {
+        } else if (animal instanceof ZooCat cat) {
             cat.meow();
         } else {
             animal.eat();

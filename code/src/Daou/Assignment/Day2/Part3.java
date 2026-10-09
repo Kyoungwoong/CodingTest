@@ -1,6 +1,6 @@
 package Daou.Assignment.Day2;
 
-class Parent {
+class Part3Parent {
     int value = 10;
 
     int getValue() {
@@ -16,7 +16,7 @@ class Parent {
     }
 }
 
-class Child extends Parent {
+class Part3Child extends Part3Parent {
 
     int value = 20;
 
@@ -45,13 +45,13 @@ class Child extends Parent {
 
 public class Part3 {
     public static void main(String[] args) {
-        Parent parent = new Child();
+        Part3Parent parent = new Part3Child();
         parent.print();
         parent.staticPrint();
         System.out.println(parent.value);
         System.out.println(parent.getValue());
 
-        Child child = new Child();
+        Part3Child child = new Part3Child();
         child.staticPrint();
     }
 }

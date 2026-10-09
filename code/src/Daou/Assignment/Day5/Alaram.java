@@ -1,9 +1,9 @@
 package Daou.Assignment.Day5;
 
-abstract class Notification {
+abstract class AlarmNotification {
     private String message;
 
-    public Notification(String message) {
+    public AlarmNotification(String message) {
         this.message = message;
     }
 
@@ -14,13 +14,13 @@ abstract class Notification {
     public abstract void send();
 }
 
-interface Loggable {
+interface AlarmLoggable {
     void log();
 }
 
-class EmailNotification extends Notification implements Loggable {
+class AlarmEmailNotification extends AlarmNotification implements AlarmLoggable {
 
-    public EmailNotification(String message) {
+    public AlarmEmailNotification(String message) {
         super(message);
     }
 
@@ -37,11 +37,11 @@ class EmailNotification extends Notification implements Loggable {
 
 public class Alaram {
     public static void main(String[] args) {
-        Notification notification = new EmailNotification("Hello");
+        AlarmNotification notification = new AlarmEmailNotification("Hello");
 
         notification.send();
 
-        Loggable loggable = new EmailNotification("Hello");
+        AlarmLoggable loggable = new AlarmEmailNotification("Hello");
 
         loggable.log();
     }

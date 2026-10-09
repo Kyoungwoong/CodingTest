@@ -1,11 +1,11 @@
 package Daou.Assignment.Day7;
 
-enum OrderStatus {
+enum StoreOrderStatus {
     READY("주문대기"), PAID("결제완료"), CANCELLED("주문취소");
 
     private final String description;
 
-    OrderStatus(String description) {
+    StoreOrderStatus(String description) {
         this.description = description;
     }
 
@@ -19,36 +19,36 @@ enum OrderStatus {
 }
 
 
-class Order {
+class StoreOrder {
     private final long id;
     private String customer;
-    private OrderStatus status;
+    private StoreOrderStatus status;
 
-    public Order(long id, String customer) {
+    public StoreOrder(long id, String customer) {
         this.id = id;
         this.customer = customer;
-        this.status = OrderStatus.READY;
+        this.status = StoreOrderStatus.READY;
     }
 
     public long getId() {
         return this.id;
     }
 
-    public OrderStatus getStatus() {
+    public StoreOrderStatus getStatus() {
         return this.status;
     }
 
     public void pay() {
-        if (status == OrderStatus.READY) {
-            status = OrderStatus.PAID;
+        if (status == StoreOrderStatus.READY) {
+            status = StoreOrderStatus.PAID;
             return;
         }
         throw new IllegalStateException("잘못된 결재 상태 변경입니다");
     }
 
     public void cancel() {
-        if (status == OrderStatus.READY) {
-            status = OrderStatus.CANCELLED;
+        if (status == StoreOrderStatus.READY) {
+            status = StoreOrderStatus.CANCELLED;
             return;
         }
         throw new IllegalStateException("잘못된 취소 상태 변경입니다");
@@ -60,7 +60,7 @@ class Order {
             return true;
         }
 
-        if (!(obj instanceof Order other)) {
+        if (!(obj instanceof StoreOrder other)) {
             return false;
         }
 
@@ -82,9 +82,9 @@ class Order {
 
 public class Store {
     public static void main(String[] args) {
-        Order a = new Order(1, "Kim");
-        Order b = new Order(1, "Lee");
-        Order c = new Order(2, "Park");
+        StoreOrder a = new StoreOrder(1, "Kim");
+        StoreOrder b = new StoreOrder(1, "Lee");
+        StoreOrder c = new StoreOrder(2, "Park");
 
         System.out.println(a == b);
         System.out.println(a.equals(b));

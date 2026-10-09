@@ -1,19 +1,19 @@
 package Daou.Assignment.Day4;
 
-class Payment {
+class BankPayment {
     public void pay() {
         System.out.println("Payment");
     }
 }
 
-class CardPayment extends Payment {
+class BankCardPayment extends BankPayment {
     @Override 
     public void pay() {
         System.out.println("Card Payment");
     }
 }
 
-class BankTransfer extends Payment {
+class BankTransferPayment extends BankPayment {
     @Override 
     public void pay() {
         System.out.println("Bank Transfer");
@@ -22,11 +22,11 @@ class BankTransfer extends Payment {
 
 public class Bank {
     public static void main(String[] args) {
-        process(new CardPayment());
-        process(new BankTransfer());
+        process(new BankCardPayment());
+        process(new BankTransferPayment());
     }
 
-    private static void process(Payment payment) {
+    private static void process(BankPayment payment) {
         payment.pay();
     }
 }

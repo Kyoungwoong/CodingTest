@@ -2,29 +2,29 @@ package Daou.Assignment.Day6;
 
 import java.io.IOException;
 
-class PaymentException extends RuntimeException {
-    public PaymentException(String message) { super(message); }
+class ReviewPaymentException extends RuntimeException {
+    public ReviewPaymentException(String message) { super(message); }
 }
-class InsufficientBalanceException extends PaymentException {
-    public InsufficientBalanceException(String message) { super(message); }
+class ReviewInsufficientBalanceException extends ReviewPaymentException {
+    public ReviewInsufficientBalanceException(String message) { super(message); }
 }
-class ExternalPaymentException extends Exception {
-    public ExternalPaymentException(String message) { super(message); }
+class ReviewExternalPaymentException extends Exception {
+    public ReviewExternalPaymentException(String message) { super(message); }
 }
-abstract class Payment {
+abstract class ReviewPayment {
     private long balance;
-    public Payment(long balance) { this.balance = balance; }
+    public ReviewPayment(long balance) { this.balance = balance; }
     public long getBalance() { return balance; }
     protected void decreaseBalance(long amount) { balance -= amount; }
     public abstract void pay(long amount);
 }
-class CardPayment extends Payment {
-    public CardPayment(long balance) { super(balance); }
+class ReviewCardPayment extends ReviewPayment {
+    public ReviewCardPayment(long balance) { super(balance); }
     @Override
     public void pay(long amount) {
         if (amount <= 0) throw new IllegalArgumentException("Invalid amount");
         if (amount > getBalance())
-            throw new InsufficientBalanceException("Insufficient balance");
+            throw new ReviewInsufficientBalanceException("Insufficient balance");
         decreaseBalance(amount);
         System.out.println("Payment Complete");
     }
@@ -39,7 +39,7 @@ class Child extends Parent {
 
 public class Day6Review {
     public static void main(String[] args) {
-        Payment payment = new CardPayment(10_000);
+        ReviewPayment payment = new ReviewCardPayment(10_000);
         process(payment, 3_000);
         process(payment, 20_000);
         process(payment, -100);
@@ -50,10 +50,10 @@ public class Day6Review {
         System.out.println(testFinally()); // A, then 10
     }
 
-    static void process(Payment payment, long amount) {
+    static void process(ReviewPayment payment, long amount) {
         try {
             payment.pay(amount);
-        } catch (InsufficientBalanceException e) {
+        } catch (ReviewInsufficientBalanceException e) {
             System.out.println("Payment Failed: " + e.getMessage());
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid Payment: " + e.getMessage());

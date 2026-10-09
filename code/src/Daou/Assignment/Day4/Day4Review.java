@@ -2,65 +2,65 @@ package Daou.Assignment.Day4;
 
 public class Day4Review {
     public static void main(String[] args) {
-        Animal animal = new Dog(); // Upcasting
+        ReviewAnimal animal = new ReviewDog(); // Upcasting
         animal.sound();            // Dog Sound
 
-        Dog dog = (Dog) animal;    // Downcasting
+        ReviewDog dog = (ReviewDog) animal;    // Downcasting
         System.out.println(animal == dog); // true
         dog.bark();
 
-        check(new Dog());
-        check(new Cat());
+        check(new ReviewDog());
+        check(new ReviewCat());
         check(null);
 
-        Payment[] payments = {new CardPayment(), new BankTransfer()};
-        for (Payment payment : payments) {
+        ReviewPayment[] payments = {new ReviewCardPayment(), new ReviewBankTransfer()};
+        for (ReviewPayment payment : payments) {
             process(payment);
         }
     }
 
-    static void check(Animal animal) {
-        if (animal instanceof Dog dog) {
+    static void check(ReviewAnimal animal) {
+        if (animal instanceof ReviewDog dog) {
             dog.bark();
-        } else if (animal instanceof Cat cat) {
+        } else if (animal instanceof ReviewCat cat) {
             cat.meow();
         } else {
             System.out.println("Not Dog/Cat");
         }
     }
 
-    static void process(Payment payment) {
+    static void process(ReviewPayment payment) {
         // instanceof / casting 없이 다형성 사용
         payment.pay();
     }
 }
 
-class Animal {
+class ReviewAnimal {
     void sound() { System.out.println("Animal Sound"); }
 }
 
-class Dog extends Animal {
+class ReviewDog extends ReviewAnimal {
     @Override
     void sound() { System.out.println("Dog Sound"); }
     void bark() { System.out.println("Dog Bark"); }
 }
 
-class Cat extends Animal {
+class ReviewCat extends ReviewAnimal {
     @Override
     void sound() { System.out.println("Cat Sound"); }
     void meow() { System.out.println("Cat Meow"); }
 }
 
-class Payment {
+class ReviewPayment {
     void pay() { System.out.println("Payment"); }
 }
 
-class CardPayment extends Payment {
+class ReviewCardPayment extends ReviewPayment {
     @Override
     void pay() { System.out.println("Card Payment"); }
 }
 
-class BankTransfer extends Payment {
+class ReviewBankTransfer extends ReviewPayment {
     @Override
     void pay() { System.out.println("Bank Transfer"); }
 }

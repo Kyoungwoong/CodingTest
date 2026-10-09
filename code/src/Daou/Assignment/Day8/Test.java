@@ -32,14 +32,14 @@ public class Test {
             "이 리스트는 List<Dog>일 수도, List<Pudel>일 수도 있다
          */
         List<? extends Dog> a = new ArrayList<>();
-        a.add(new Animal());
-        a.add(new Dog());
-        a.add(new Pudel());
+        // a.add(new Dog());   // Compile Error: 실제 리스트가 List<Pudel>일 수도 있음
+        Dog dog = a.isEmpty() ? null : a.get(0);
 
         // Dog 또는 Dog의 어떤 상위 타입의 리스트
         List<? super Dog> b = new ArrayList<>();
         b.add(new Dog());    // OK
         b.add(new Pudel());  // OK (Pudel은 Dog니까)
-        b.add(new Animal()); // 에러: Dog의 상위 타입은 넣을 수 없음
+        // b.add(new Animal()); // Compile Error: Dog의 상위 타입은 넣을 수 없음
+        Object item = b.get(0);
     }
 }

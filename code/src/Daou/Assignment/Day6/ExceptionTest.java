@@ -4,15 +4,14 @@ public class ExceptionTest {
     public static void main(String[] args) {
         try {
 
-        } catch (PaymentService ex) {
-
-        } catch (IllegalArgumentException ie) { 
+        } catch (IllegalArgumentException ie) {
             /**
              * Exception 상속관계를 통해 
              * 해당 catch는 절대 실행될 수 없기 때문에
              * Compile Error 발생
              **/ 
-            
+        } catch (RuntimeException ex) {
+
         }
     }
 

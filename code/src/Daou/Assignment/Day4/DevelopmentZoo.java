@@ -1,6 +1,6 @@
 package Daou.Assignment.Day4;
 
-class Animal {
+class DevelopmentAnimal {
 
     void act() {
         eat();
@@ -11,7 +11,7 @@ class Animal {
     }
 }
 
-class Dog extends Animal {
+class DevelopmentDog extends DevelopmentAnimal {
 
     @Override
     void act() {
@@ -23,7 +23,7 @@ class Dog extends Animal {
     }
 }
 
-class Cat extends Animal {
+class DevelopmentCat extends DevelopmentAnimal {
 
     @Override
     void act() {
@@ -37,12 +37,12 @@ class Cat extends Animal {
 
 public class DevelopmentZoo {
     public static void main(String[] args) {
-        process(new Dog());
-        process(new Cat());
-        process(new Animal());
+        process(new DevelopmentDog());
+        process(new DevelopmentCat());
+        process(new DevelopmentAnimal());
     }
 
-    private static void process(Animal animal) {
+    private static void process(DevelopmentAnimal animal) {
         animal.act();
     }
 }

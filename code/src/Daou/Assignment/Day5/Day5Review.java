@@ -1,9 +1,9 @@
 package Daou.Assignment.Day5;
 
-abstract class Account {
+abstract class ReviewAccount {
     private long balance;
 
-    public Account(long balance) { this.balance = balance; }
+    public ReviewAccount(long balance) { this.balance = balance; }
     public long getBalance() { return balance; }
 
     public void deposit(long amount) {
@@ -19,9 +19,9 @@ abstract class Account {
     public abstract void withdraw(long amount);
 }
 
-interface Transferable {
+interface ReviewTransferable {
     int MAX_TRANSFER_COUNT = 10; // public static final
-    void transfer(Account target, long amount); // public abstract
+    void transfer(ReviewAccount target, long amount); // public abstract
 
     default void printTransferInfo() {
         printMessage("Transfer Available");
@@ -36,16 +36,16 @@ interface Transferable {
     }
 }
 
-interface Printable {
+interface ReviewPrintable {
     default void print() { System.out.println("Printable"); }
 }
 
-interface Loggable {
+interface ReviewPrintableLoggable {
     default void print() { System.out.println("Loggable"); }
 }
 
-class BankAccount extends Account implements Transferable {
-    public BankAccount(long balance) { super(balance); }
+class ReviewBankAccount extends ReviewAccount implements ReviewTransferable {
+    public ReviewBankAccount(long balance) { super(balance); }
 
     @Override
     public void withdraw(long amount) {
@@ -53,7 +53,7 @@ class BankAccount extends Account implements Transferable {
     }
 
     @Override
-    public void transfer(Account target, long amount) {
+    public void transfer(ReviewAccount target, long amount) {
         if (decreaseBalance(amount)) {
             target.deposit(amount);
         }
@@ -61,27 +61,27 @@ class BankAccount extends Account implements Transferable {
 }
 
 // Same default method from unrelated interfaces -> must resolve conflict.
-class Report implements Printable, Loggable {
+class ReviewReport implements ReviewPrintable, ReviewPrintableLoggable {
     @Override
     public void print() {
-        Printable.super.print();
+        ReviewPrintable.super.print();
     }
 }
 
-abstract class Notification {
+abstract class ReviewNotification {
     private final String message;
 
-    public Notification(String message) { this.message = message; }
+    public ReviewNotification(String message) { this.message = message; }
     public String getMessage() { return message; }
     public abstract void send();
 }
 
-interface NotificationLoggable {
+interface ReviewNotificationLoggable {
     void log();
 }
 
-class EmailNotification extends Notification implements NotificationLoggable {
-    public EmailNotification(String message) { super(message); }
+class ReviewEmailNotification extends ReviewNotification implements ReviewNotificationLoggable {
+    public ReviewEmailNotification(String message) { super(message); }
 
     @Override
     public void send() {
@@ -96,16 +96,16 @@ class EmailNotification extends Notification implements NotificationLoggable {
 
 public class Day5Review {
     public static void main(String[] args) {
-        Notification notification = new EmailNotification("Hello");
+        ReviewNotification notification = new ReviewEmailNotification("Hello");
         notification.send();
 
-        NotificationLoggable loggable = new EmailNotification("Hello");
+        ReviewNotificationLoggable loggable = new ReviewEmailNotification("Hello");
         loggable.log();
 
-        BankAccount sender = new BankAccount(10_000);
-        BankAccount receiver = new BankAccount(3_000);
+        ReviewBankAccount sender = new ReviewBankAccount(10_000);
+        ReviewBankAccount receiver = new ReviewBankAccount(3_000);
 
-        Transferable transferable = sender;
+        ReviewTransferable transferable = sender;
         transferable.printTransferInfo();
         transferable.transfer(receiver, 2_000);
 
@@ -113,13 +113,13 @@ public class Day5Review {
         System.out.println(receiver.getBalance()); // 5000
 
         // Interface static method -> call using interface name.
-        Transferable.printRule();
+        ReviewTransferable.printRule();
 
         // Interface field -> public static final.
-        System.out.println(Transferable.MAX_TRANSFER_COUNT);
+        System.out.println(ReviewTransferable.MAX_TRANSFER_COUNT);
 
         // Default-method conflict was resolved in Report#print().
-        new Report().print();
+        new ReviewReport().print();
     }
 }
 

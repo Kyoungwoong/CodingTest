@@ -1,4 +1,4 @@
-package Daou.Assignment.thisTest;
+package Daou.Assignment.Day1;
 
 public class User {
 
