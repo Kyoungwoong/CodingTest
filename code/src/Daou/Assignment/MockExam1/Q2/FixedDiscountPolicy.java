@@ -3,21 +3,25 @@ package Daou.Assignment.MockExam1.Q2;
 public class FixedDiscountPolicy implements DiscountPolicy {
 
     private final long discountAmount;
-    private static final int ALLOWED_DISCOUNT_AMOUNT = 0;
 
     public FixedDiscountPolicy(long discountAmount) {
-        // TODO 1: 할인 금액 검증
-        if (discountAmount < ALLOWED_DISCOUNT_AMOUNT) {
-            throw new IllegalArgumentException();
+        if (discountAmount < 0) {
+            throw new IllegalArgumentException(
+                    "Discount amount must not be negative"
+            );
         }
         this.discountAmount = discountAmount;
     }
 
-    // TODO 2: DiscountPolicy 인터페이스 구현
-    // TODO 3: calculateDiscount() 구현
     @Override
     public long calculateDiscount(long price) {
-        return price >= discountAmount ?
-                price - discountAmount : price;
+        if (price < 0) {
+            throw new IllegalArgumentException(
+                    "Price must not be negative"
+            );
+        }
+
+        // 할인 금액은 상품 가격을 초과할 수 없다.
+        return Math.min(price, discountAmount);
     }
 }

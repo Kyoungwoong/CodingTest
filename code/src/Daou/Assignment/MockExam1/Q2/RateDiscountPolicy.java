@@ -2,24 +2,37 @@ package Daou.Assignment.MockExam1.Q2;
 
 public class RateDiscountPolicy implements DiscountPolicy {
 
+    private static final int MIN_RATE = 0;
+    private static final int MAX_RATE = 100;
+
     private final int rate;
 
     public RateDiscountPolicy(int rate) {
-        // TODO 4: 할인율 검증
-        if (isViolateRate(rate)) {
-            throw new IllegalArgumentException();
+        if (isInvalidRate(rate)) {
+            throw new IllegalArgumentException(
+                    "Discount rate must be between 0 and 100"
+            );
         }
         this.rate = rate;
     }
 
-    // TODO 5: DiscountPolicy 인터페이스 구현
-    // TODO 6: calculateDiscount() 구현
     @Override
     public long calculateDiscount(long price) {
-        return price - (price * rate / 100);
+        if (price < 0) {
+            throw new IllegalArgumentException(
+                    "Price must not be negative"
+            );
+        }
+
+        // price * rate를 직접 계산하면 long 오버플로가 발생할 수 있다.
+        // 몫과 나머지를 분리하여 정확한 할인 금액을 계산한다.
+        long quotient = price / 100;
+        long remainder = price % 100;
+
+        return quotient * rate + (remainder * rate) / 100;
     }
 
-    private boolean isViolateRate(int rate) {
-        return 0 > rate || rate > 100;
+    private static boolean isInvalidRate(int rate) {
+        return rate < MIN_RATE || rate > MAX_RATE;
     }
 }

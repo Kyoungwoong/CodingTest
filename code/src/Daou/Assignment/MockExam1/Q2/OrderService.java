@@ -5,28 +5,31 @@ public class OrderService {
     private final DiscountPolicy discountPolicy;
 
     public OrderService(DiscountPolicy discountPolicy) {
-        // TODO 7: null 검증
         if (discountPolicy == null) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(
+                    "Discount policy must not be null"
+            );
         }
+
         this.discountPolicy = discountPolicy;
     }
 
     public long calculateFinalPrice(long price) {
-        // TODO 8: 상품 가격 검증
         if (price < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(
+                    "Price must not be negative"
+            );
         }
 
-        // TODO 9: 할인 금액 계산
-        long finalPrice = discountPolicy.calculateDiscount(price);
+        long discountAmount = discountPolicy.calculateDiscount(price);
 
-        // TODO 10: 할인 결과 검증
-        if (finalPrice < 0 || finalPrice >= price) {
-            return 0;
+        // 할인 정책이 계약을 위반한 경우 정상적인 결제 금액을 반환하지 않는다.
+        if (discountAmount < 0 || discountAmount > price) {
+            throw new IllegalStateException(
+                    "Invalid discount amount: " + discountAmount
+            );
         }
 
-        // TODO 11: 최종 결제 금액 반환
-        return finalPrice;
+        return price - discountAmount;
     }
 }
