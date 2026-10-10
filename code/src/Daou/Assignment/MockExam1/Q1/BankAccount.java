@@ -1,4 +1,4 @@
-package Daou.Assignment.MockExam1;
+package Daou.Assignment.MockExam1.Q1;
 
 public class BankAccount {
 
