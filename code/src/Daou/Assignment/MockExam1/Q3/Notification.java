@@ -10,24 +10,29 @@ public abstract class Notification {
         this.message = message;
     }
 
-    public void send() {
+    /**
+     * 공통 알림 발송 절차를 수행한다.
+     * 검증, 메시지 가공, 발송 순서를 보장하며
+     * 하위 클래스에서 재정의할 수 없다.
+     */
+    public final void send() {
         validate();
 
-        String formatedMessage = formatMessage(message);
+        String formattedMessage = formatMessage(message);
 
-        deliver(recipient, formatedMessage);
+        deliver(recipient, formattedMessage);
     }
 
     private void validate() {
-        if (recipient.isEmpty()) {
+        if (recipient == null || recipient.isBlank()) {
             throw new IllegalArgumentException(
-                    "recipient must not be null"
+                    "Recipient must not be null or blank"
             );
         }
 
-        if (message.isEmpty()) {
+        if (message == null || message.isBlank()) {
             throw new IllegalArgumentException(
-                    "message must not be null"
+                    "Message must not be null or blank"
             );
         }
     }
@@ -35,10 +40,10 @@ public abstract class Notification {
     // formatMessage() 추상 메서드 선언
     // 매개변수: String message
     // 반환 타입: String
-    abstract String formatMessage(String message);
+    protected abstract String formatMessage(String message);
 
     // deliver() 추상 메서드 선언
     // 매개변수: String recipient, String formattedMessage
     // 반환 타입: void
-    abstract void deliver(String recipient, String formattedMessage);
+    protected abstract void deliver(String recipient, String formattedMessage);
 }

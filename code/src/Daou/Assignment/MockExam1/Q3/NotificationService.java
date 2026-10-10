@@ -21,7 +21,6 @@ public class NotificationService {
             }
         }
 
-        // 모든 알림을 순서대로 발송
         for (Notification notification : notifications) {
             notification.send();
         }

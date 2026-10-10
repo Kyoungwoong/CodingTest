@@ -2,7 +2,7 @@ package Daou.Assignment.MockExam1.Q3;
 
 public class EmailNotification extends Notification {
 
-    private final static String EMAIL = "[EMAIL] ";
+    private static final String EMAIL_PREFIX = "[EMAIL] ";
 
     public EmailNotification(String recipient, String message) {
         super(recipient, message);
@@ -10,7 +10,7 @@ public class EmailNotification extends Notification {
 
     @Override
     public String formatMessage(String message) {
-        return EMAIL + message;
+        return EMAIL_PREFIX + message;
     }
 
     @Override
