@@ -16,11 +16,11 @@ public class BankAccount {
 
     public void deposit(long amount) {
         // TODO 2: 입금 금액 검증
-        if (amount < ALLOWED_BALANCE) {
+        if (amount <= ALLOWED_BALANCE) { // 1. 요구사항 확인
             throw new IllegalArgumentException();
         }
         // TODO 3: 오버플로 방지
-        if (balance >= Long.MAX_VALUE - amount) {
+        if (balance > Long.MAX_VALUE - amount) { // 2. 계산 잘못함.
             throw new IllegalArgumentException();
         }
         // TODO 4: 입금 처리
