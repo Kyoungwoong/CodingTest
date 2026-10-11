@@ -55,10 +55,11 @@ class MemberRepository {
     }
 
     public Optional<Member> findById(long id) {
-        if (members.containsKey(id)) {
-            return Optional.of(members.get(id));
-        }
-        return Optional.of(null);
+        return Optional.ofNullable(members.get(id));
+//        if (members.containsKey(id)) {
+//            return Optional.of(members.get(id));
+//        }
+//        return Optional.of(null);
     }
 
     public void remove(long id) {
