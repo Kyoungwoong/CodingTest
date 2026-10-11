@@ -9,6 +9,17 @@ public final class Member {
 
     public Member(String userId, String name) {
         // TODO 1: userId, name 유효성 검증
+        if (userId == null || userId.isBlank()) {
+            throw new IllegalArgumentException(
+                    "userId must not be null or blank"
+            );
+        }
+
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException(
+                    "name must not be null or blank"
+            );
+        }
         this.userId = userId;
         this.name = name;
     }
@@ -35,13 +46,12 @@ public final class Member {
             return false;
         }
 
-        return !member.getUserId().isEmpty()
-                && this.getUserId().equals(member.getUserId());
+        return userId.equals(member.userId);
     }
 
     // TODO 3: hashCode() 재정의
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.getUserId());
+        return this.userId.hashCode();
     }
 }
