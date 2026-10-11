@@ -2,10 +2,10 @@ package Daou.Assignment.MockExam1.Q10;
 
 public class PointHistory {
 
-    public final String memberId;
-    public final PointType type;
-    public final long amount;
-    public final long balanceAfter;
+    private final String memberId;
+    private final PointType type;
+    private final long amount;
+    private final long balanceAfter;
 
     public PointHistory(
             String memberId,

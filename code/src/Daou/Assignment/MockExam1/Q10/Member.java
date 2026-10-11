@@ -2,8 +2,8 @@ package Daou.Assignment.MockExam1.Q10;
 
 public class Member {
 
-    public final String id;
-    public final String name;
+    private final String id;
+    private final String name;
     private long points;
     private static final int ALLOWED_AMOUNT = 0;
 
@@ -17,6 +17,10 @@ public class Member {
 
     public String getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public long getPoints() {
