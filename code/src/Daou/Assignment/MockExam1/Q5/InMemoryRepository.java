@@ -2,69 +2,66 @@ package Daou.Assignment.MockExam1.Q5;
 
 import java.util.*;
 
-// TODO 2: 제네릭 타입 제약 조건 및
 // Repository 인터페이스 구현
-public class InMemoryRepository<T extends Identifiable, ID>
+public class InMemoryRepository<T extends Identifiable<ID>, ID>
         implements Repository<T, ID> {
 
-    // TODO 3: HashMap을 이용한 저장소 선언
     private final Map<ID, T> storeMap = new HashMap<>();
 
     @Override
     public void save(T entity) {
-        // TODO 4: null 객체 검증
-        checkedNull(entity);
+        validateNotNull(entity, "entity");
 
-        // TODO 5: 객체 ID 검증
-        checkedNull(entity.getId());
+        ID id = entity.getId();
+        validateNotNull(id, "id");
 
-        // TODO 6: 중복 ID 검증
-        if (storeMap.containsKey(entity.getId())) {
+        if (storeMap.containsKey(id)) {
             throw new IllegalStateException(
-                    "entity can not be duplicated id"
+                    "Entity already exists. id: " + id
             );
         }
 
-        // TODO 7: 객체 저장
-        storeMap.put((ID) entity.getId(), entity);
+        storeMap.put(id, entity);
     }
 
     @Override
     public Optional<T> findById(ID id) {
-        // TODO 8: null ID 검증
-        checkedNull(id);
+        validateNotNull(id, "id");
 
-        // TODO 9: 객체 조회
-        return Optional.of(storeMap.getOrDefault(id, null));
+        // return Optional.of(storeMap.getOrDefault(id, null));
+        // Optional 처리는 이렇게 함.
+        return Optional.ofNullable(storeMap.get(id));
     }
 
     @Override
     public boolean deleteById(ID id) {
-        // TODO 10: null ID 검증
-        checkedNull(id);
+        validateNotNull(id, "id");
 
-        // TODO 11: 객체 삭제 및 결과 반환
-        return false;
+        return storeMap.remove(id) != null;
     }
 
     @Override
     public List<T> findAll() {
-        // TODO 12: 모든 객체를 새로운 리스트로 반환
-        List<T> result = new ArrayList<>();
-        storeMap.forEach((k, v) -> result.add(v));
-        return result;
+//        List<T> result = new ArrayList<>();
+//        storeMap.forEach((k, v) -> result.add(v));
+//        return result;
+        // 조회 결과를 독립적인 리스트로 반환하여
+        // 외부에서 저장소의 컬렉션 구조를 변경하지 못하도록 한다.
+        return new ArrayList<>(storeMap.values());
     }
 
     @Override
     public int count() {
-        // TODO 13: 저장된 객체 수 반환
         return storeMap.size();
     }
 
-    private void checkedNull(Object entity) {
-        if (entity == null) {
+    private static void validateNotNull(
+            Object value,
+            String parameterName
+    ) {
+        if (value == null) {
             throw new IllegalArgumentException(
-                    "entity must not be null"
+                    parameterName + " must not be null"
             );
         }
     }
