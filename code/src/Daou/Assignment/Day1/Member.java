@@ -38,10 +38,6 @@ public class Member {
         return active;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -53,7 +49,7 @@ public class Member {
 
     // 12. changeName(String name)을 구현한다.
     public void changeName(String name) {
-        if (name == null || "".equals(name)) {
+        if (name == null || name.isEmpty()) {
             return;
         }
         this.name = name;
