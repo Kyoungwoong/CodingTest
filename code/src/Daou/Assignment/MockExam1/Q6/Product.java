@@ -8,7 +8,7 @@ public class Product {
     private int stock;
 
     public Product(String id, String name, long price, int stock) {
-        validateField(id, name, price, stock);
+        validateProduct(id, name, price, stock);
 
         this.id = id;
         this.name = name;
@@ -54,7 +54,7 @@ public class Product {
      * price: 0이상
      * stock: 0이상
      */
-    private void validateField(String id, String name, long price, int stock) {
+    private static void validateProduct(String id, String name, long price, int stock) {
         if (id == null || id.isBlank()) {
             throw new IllegalArgumentException(
                     "id must not be null or empty"

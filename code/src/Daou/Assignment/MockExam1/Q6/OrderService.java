@@ -1,6 +1,7 @@
 package Daou.Assignment.MockExam1.Q6;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class OrderService {
@@ -14,10 +15,25 @@ public class OrderService {
             PaymentProcessor paymentProcessor,
             DiscountPolicy discountPolicy
     ) {
-        this.paymentProcessor = paymentProcessor;
-        this.discountPolicy = discountPolicy;
+        this.paymentProcessor = Objects.requireNonNull(
+                paymentProcessor,
+                "paymentProcessor must not be null"
+        );
+        this.discountPolicy = Objects.requireNonNull(
+                discountPolicy,
+                "discountPolicy must not be null"
+        );
     }
 
+    /**
+     * 주문을 검증하고 결제를 요청한다.
+     * 결제가 성공한 경우에만 재고를 차감하고 주문 완료를 기록한다.
+     *
+     * @return 실제 결제 금액
+     * @throws IllegalArgumentException 주문 인자가 유효하지 않은 경우
+     * @throws IllegalStateException 중복 주문, 재고 부족 또는 결제 실패
+     * @throws ArithmeticException 총 주문 금액이 long 범위를 초과한 경우
+     */
     public long placeOrder(
             String orderId,
             Product product,
@@ -37,7 +53,10 @@ public class OrderService {
             );
         }
 
-        long totalPrice = product.getPrice() * quantity;
+        long totalPrice = Math.multiplyExact(
+                product.getPrice(),
+                quantity
+        );
 
         long discountAmount = discountPolicy.calculateDiscount(totalPrice);
         long finalPrice = totalPrice - discountAmount;

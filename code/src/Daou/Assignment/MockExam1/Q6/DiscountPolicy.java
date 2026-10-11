@@ -15,13 +15,14 @@ public class DiscountPolicy {
                     "price must be zero or positive number"
             );
         }
-        return price * (rate / 100);
+        return (price / 100) * rate
+                + ((price % 100) * rate) / 100;
     }
 
     private void validateRate(int rate) {
-        if (0 > rate || rate > 100) {
-            throw new IllegalStateException(
-                    "rate must between 0 and 100"
+        if (rate < 0 || rate > 100) {
+            throw new IllegalArgumentException(
+                    "rate must be between 0 and 100"
             );
         }
     }
