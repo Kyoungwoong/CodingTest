@@ -25,15 +25,17 @@ public class TransferService {
         Account toAccount = repository.findById(toAccountId)
                 .orElseThrow( () -> new TransferException("None match Account: " + toAccountId));
 
-        try {
-            fromAccount.withdraw(amount);
-            toAccount.deposit(amount);
-        } catch (ArithmeticException ae) {
-            fromAccount.deposit(amount);
-            throw ae;
-        } catch (IllegalStateException ilse) {
-            throw ilse;
+        long fromBalance = fromAccount.getBalance();
+        long toBalance = toAccount.getBalance();
+
+        if (fromBalance < amount) {
+            throw new IllegalStateException("Insufficient balance");
         }
+
+        Math.addExact(toBalance, amount);
+
+        fromAccount.withdraw(amount);
+        toAccount.deposit(amount);
     }
 
     private void validateTransfer(String fromAccountId,
