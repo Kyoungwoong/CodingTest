@@ -12,6 +12,13 @@ import java.util.Optional;
 public class WaitingListManager {
 
     private final List<Reservation> waitingList = new ArrayList<>();
+    /**
+     * 정렬기준 priority asc, requestedAt asc, reservationId asc
+     */
+    private static final Comparator<Reservation> RESERVATION_ORDER =
+        Comparator.comparingInt(Reservation::priority)
+            .thenComparingLong(Reservation::requestedAt)
+            .thenComparing(Reservation::reservationId);
 
     /**
      * 이미 같은 reservationId면 IllegalArgumentException
@@ -44,12 +51,22 @@ public class WaitingListManager {
             );
         }
 
-        long count = waitingList.stream()
-                                .filter(r -> r.reservationId().equals(reservationId))
-                                .count();
-        if (count > 0) {
+        // long count = waitingList.stream()
+        //                         .filter(r -> r.reservationId().equals(reservationId))
+        //                         .count();
+        // if (count > 0) {
+        //     throw new IllegalArgumentException(
+        //         "reservation cannot be duplicated"
+        //     );
+        // }
+
+        // short cut으로 빠르게 종료.
+        boolean exists = waitingList.stream()
+            .anyMatch(r -> r.reservationId().equals(reservationId));
+
+        if (exists) {
             throw new IllegalArgumentException(
-                "reservation cannot be duplicated"
+                "Duplicate reservationId"
             );
         }
 
@@ -73,15 +90,11 @@ public class WaitingListManager {
      */
     public List<Reservation> getSortedWaitingList() {
         return waitingList.stream()
-                            .sorted(Comparator.comparingInt(Reservation::priority)
-                                            .thenComparing(Reservation::requestedAt)
-                                            .thenComparing(Reservation::reservationId)
-                                    )
+                            .sorted(RESERVATION_ORDER)
                             .toList();
     }
 
     /**
-     * 정렬기준 priority asc, requestedAt asc, reservationId asc
      * @param customerName
      * @return
      */
@@ -89,10 +102,7 @@ public class WaitingListManager {
         validateCustomerName(customerName);
         return waitingList.stream()
                         .filter(r -> r.customerName().equals(customerName))
-                        .sorted(Comparator.comparingInt(Reservation::priority)
-                                            .thenComparing(Reservation::requestedAt)
-                                            .thenComparing(Reservation::reservationId)
-                                    )
+                        .sorted(RESERVATION_ORDER)
                         .toList();
     }
 
