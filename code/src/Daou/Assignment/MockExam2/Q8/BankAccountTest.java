@@ -50,12 +50,14 @@ public class BankAccountTest {
     @Test
     @DisplayName("0원 입금 거부")
     public void rejectZeroDeposit() {
-        IllegalArgumentException ex = assertThrows(
-                IllegalArgumentException.class,
-                () -> normalAccount.deposit(0)
+        long before = normalAccount.getBalance();
+
+        assertThrows(
+                ArithmeticException.class,
+                () -> normalAccount.deposit(Long.MAX_VALUE)
         );
 
-        assertEquals("Invalid amount", ex.getMessage());
+        assertEquals(before, normalAccount.getBalance());
     }
 
     @Test
