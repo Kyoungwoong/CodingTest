@@ -3,14 +3,23 @@ package Daou.Assignment.Day6;
 import java.io.IOException;
 
 class ReviewPaymentException extends RuntimeException {
-    public ReviewPaymentException(String message) { super(message); }
+    public ReviewPaymentException(String message) {
+        super(message);
+    }
 }
+
 class ReviewInsufficientBalanceException extends ReviewPaymentException {
-    public ReviewInsufficientBalanceException(String message) { super(message); }
+    public ReviewInsufficientBalanceException(String message) {
+        super(message);
+    }
 }
+
 class ReviewExternalPaymentException extends Exception {
-    public ReviewExternalPaymentException(String message) { super(message); }
+    public ReviewExternalPaymentException(String message) {
+        super(message);
+    }
 }
+
 abstract class ReviewPayment {
     private long balance;
     public ReviewPayment(long balance) { this.balance = balance; }
