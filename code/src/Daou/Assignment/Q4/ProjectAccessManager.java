@@ -56,13 +56,10 @@ public class ProjectAccessManager {
     public Set<String> getAllUsers(String projectA, String projectB) {
         validateProjectId(projectA);
         validateProjectId(projectB);
-        Set<String> accessProjectA = accessMap.get(projectA);
-        Set<String> accessProjectB = accessMap.get(projectB);
-
-        Set<String> result = new HashSet<>(accessProjectA);
-        for (String userId: accessProjectB) {
-            result.add(userId);
-        }
+        
+        Set<String> result = getUsers(projectA);
+        result.addAll(getUsers(projectB));
+        
         return result;
     }
 
