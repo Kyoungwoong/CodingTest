@@ -22,6 +22,8 @@ public class LogAnalyzer {
         Map<String, Integer> result = new HashMap<>();
         for (RequestLog log : logs) {
             result.put(log.path(), result.getOrDefault(log.path(), 0) + 1);
+            // 이것도 가능
+            // result.merge(log.path(), 1, Integer::sum);
         }
         return result;
     }
@@ -34,6 +36,8 @@ public class LogAnalyzer {
         Map<String, Integer> result = new HashMap<>();
         for (RequestLog log : logs) {
             result.put(log.userId(), result.getOrDefault(log.userId(), 0) + 1);
+            // 이것도 가능
+            // result.merge(log.path(), 1, Integer::sum);
         }
         return result;
     }
@@ -53,21 +57,21 @@ public class LogAnalyzer {
     /**
      * API 경로별로 HTTP 상태 코드 발생 횟수
      */
-    public Map<String, Map<Integer, Integer>> countStatusByPath(
-            List<RequestLog> logs
-    ) {
+    public Map<String, Map<Integer, Integer>> countStatusByPath(List<RequestLog> logs) {
         validateLogs(logs);
+
         Map<String, Map<Integer, Integer>> result = new HashMap<>();
+
         for (RequestLog log : logs) {
-            result.compute(log.path(), (k, v) -> {
-                if (v == null) {
-                    result.put(k, new HashMap<>());
-                }
-                result.get(k).put(log.statusCode(), 
-                            result.get(k).getOrDefault(log.statusCode(), 0) + 1);
-                return v;
-            });
+            Map<Integer, Integer> statusMap =
+                    result.computeIfAbsent(
+                        log.path(),
+                        k -> new HashMap<>()
+                    );
+
+            statusMap.merge(log.statusCode(), 1, Integer::sum);
         }
+
         return result;
     }
 
