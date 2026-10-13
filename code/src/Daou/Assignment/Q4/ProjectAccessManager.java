@@ -16,46 +16,40 @@ public class ProjectAccessManager {
 
     public boolean revokeAccess(String projectId, String userId) {
         validateAccess(projectId, userId);
-        if (!accessMap.containsKey(projectId)) {
-            throw new IllegalStateException(
-                "these project not exits: " + projectId
-            );
+        Set<String> users = accessMap.get(projectId);
+
+        if (users == null) {
+            return false;
         }
-        return accessMap.get(projectId).remove(userId);
+
+        return users.remove(userId);
     }
 
     public Set<String> getUsers(String projectId) {
         validateProjectId(projectId);
-        return accessMap.computeIfAbsent(projectId, k -> new HashSet<>());
+
+        return new HashSet<>(
+            accessMap.getOrDefault(projectId, Set.of())
+        );
     }
 
     public Set<String> getCommonUsers(String projectA, String projectB) {
         validateProjectId(projectA);
         validateProjectId(projectB);
-        Set<String> accessProjectA = accessMap.get(projectA);
-        Set<String> accessProjectB = accessMap.get(projectB);
 
-        Set<String> result = new HashSet<>();
-        for (String userId: accessProjectA) {
-            if (accessProjectB.contains(userId)) {
-                result.add(userId);
-            }
-        }
+        Set<String> result = getUsers(projectA);
+        result.retainAll(getUsers(projectB));
+
         return result;
     }
 
     public Set<String> getExclusiveUsers(String projectA, String projectB) {
         validateProjectId(projectA);
         validateProjectId(projectB);
-        Set<String> accessProjectA = accessMap.get(projectA);
-        Set<String> accessProjectB = accessMap.get(projectB);
 
-        Set<String> result = new HashSet<>();
-        for (String userId: accessProjectA) {
-            if (!accessProjectB.contains(userId)) {
-                result.add(userId);
-            }
-        }
+        Set<String> result = getUsers(projectA);
+        result.removeAll(getUsers(projectB));
+
         return result;
     }
 
@@ -74,7 +68,9 @@ public class ProjectAccessManager {
 
     public boolean hasAccess(String projectId, String userId) {
         validateAccess(projectId, userId);
-        return accessMap.get(projectId).contains(userId);
+        return accessMap
+                .getOrDefault(projectId, Set.of())
+                .contains(userId);
     }
 
     /**
