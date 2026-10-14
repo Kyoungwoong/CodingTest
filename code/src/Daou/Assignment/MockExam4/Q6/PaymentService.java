@@ -8,34 +8,28 @@ public class PaymentService {
 
     public void charge(String userId, long amount) {
         validatePayment(userId, amount);
-        
+
         balances.put(userId, Math.addExact(amount, balances.getOrDefault(userId, 0L)));
     }
 
     public boolean pay(String userId, long amount) {
         validatePayment(userId, amount);
 
-        try {
-            long balance = balances.getOrDefault(userId, 0L);
-            
-            if (balance < amount) {
-                throw new RuntimeException("잔액 부족");
-            }
+        long balance = balances.getOrDefault(userId, 0L);
 
-            balances.put(userId, balance - amount);
-
-            return true;
-        } catch (RuntimeException e) {
-            System.err.println(e.getMessage());
+        if (balance < amount) {
             return false;
         }
+
+        balances.put(userId, balance - amount);
+        return true;
     }
 
     public long getBalance(String userId) {
         if (userId == null || userId.isBlank()) {
             throw new IllegalArgumentException("userId must not be null or empty");
         }
-        return balances.get(userId);
+        return balances.getOrDefault(userId, 0L);
     }
 
     private void validatePayment(String userId, long amount) {
