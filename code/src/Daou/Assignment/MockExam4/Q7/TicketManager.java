@@ -4,12 +4,23 @@ import java.util.*;
 
 public class TicketManager {
 
-    private final PriorityQueue<Ticket> ticketList = new PriorityQueue<>((a, b) -> {
-        if (a.priority() == b.priority()) {
-            return Long.compare(a.createdOrder(), b.createdOrder());
+    private final Comparator<Ticket> comparator = (a, b) -> {
+        int result = Integer.compare(b.priority(), a.priority());
+
+        if (result != 0) {
+            return result;
         }
-        return Integer.compare(b.priority(), a.priority());
-    });
+
+        result = Long.compare(a.createdOrder(), b.createdOrder());
+
+        if (result != 0) {
+            return result;
+        }
+
+        return a.ticketId().compareTo(b.ticketId());
+    };
+
+    private final PriorityQueue<Ticket> ticketList = new PriorityQueue<>(comparator);
     private final Set<String> containsSet = new HashSet<>();
 
     public boolean addTicket(Ticket ticket) {
