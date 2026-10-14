@@ -18,19 +18,37 @@ public class EmployeeAnalyzer {
 
     // Q8-2
     public long getTotalSalary(String department) {
-        return employees.stream().collect(Collectors.toMap(Employee::department,
-                                                            Employee::salary,
-                                                            Math::addExact
-                                                            )).getOrDefault(department, 0);
+    if (department == null || department.isBlank()) {
+        throw new IllegalArgumentException("Invalid department");
     }
+
+    return employees.stream()
+        .filter(e -> department.equals(e.department()))
+        .mapToLong(Employee::salary)
+        .reduce(0L, Math::addExact);
+}
 
     // Q8-3
     public Map<String, Long> getEmployeeCountByDepartment() {
-        // TODO
+        return employees.stream()
+                    .collect(Collectors.groupingBy(
+                        Employee::department,
+                        Collectors.counting()
+                    ));
     }
 
     // Q8-4
     public List<Employee> getTopSalaryEmployees(int limit) {
-        // TODO
+        if (limit <= 0) {
+            throw new IllegalArgumentException("limit must be positive");
+        }
+        return employees.stream()
+                        .sorted(
+                            Comparator.comparingInt(Employee::salary)
+                                .reversed()
+                                .thenComparing(Employee::name)
+                        )
+                        .limit(limit)
+                        .toList();
     }
 }
