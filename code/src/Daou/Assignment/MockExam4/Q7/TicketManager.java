@@ -28,12 +28,21 @@ public class TicketManager {
         if (ticket.createdOrder() < 0) {
             throw new IllegalArgumentException("createdOrder must be zero and positive number");
         }
-        containsSet.add(ticket.ticketId());
-        return ticketList.add(ticket);
+        if (!containsSet.add(ticket.ticketId())) {
+            return false;
+        }
+
+        ticketList.add(ticket);
+        return true;
     }
 
     public Ticket processNext() {
         Ticket nextTicket = ticketList.poll();
+
+        if (nextTicket == null) {
+            return null;
+        }
+
         containsSet.remove(nextTicket.ticketId());
         return nextTicket;
     }
