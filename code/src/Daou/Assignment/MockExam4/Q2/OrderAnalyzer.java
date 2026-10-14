@@ -1,6 +1,7 @@
 package Daou.Assignment.MockExam4.Q2;
 
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class OrderAnalyzer {
@@ -38,8 +39,11 @@ public class OrderAnalyzer {
 
     public Map<String, Long> getTotalAmountByCustomer() {
         return orders.stream()
-                    .collect(Collectors.toMap(Order::orderId, 
-                                            Math.multiplyExact(Order::quantity, Order::unitPrice),
+                    .collect(Collectors.toMap(Order::customerId,
+                                            order -> Math.multiplyExact(
+                                                (long) order.quantity(),
+                                                order.unitPrice()
+                                            ),
                                             Math::addExact));
     }
 
@@ -53,16 +57,45 @@ public class OrderAnalyzer {
     public List<String> getTopCustomers(int limit) {
         return getTotalAmountByCustomer().entrySet()
                                         .stream()
-                                        .sorted()
+                                        .sorted(
+                                            Map.Entry.<String, Long>comparingByValue()
+                                                .reversed()
+                                                .thenComparing(Map.Entry.comparingByKey())
+                                        )
                                         .limit(limit)
+                                        .map(Map.Entry::getKey)
                                         .toList();
     }
 
     public Map<String, List<Order>> groupOrdersByCustomer() {
-        // TODO
+        return orders.stream().sorted(Comparator.comparing(Order::orderId))
+                            .collect(Collectors.groupingBy(Order::customerId));
     }
 
     public List<Order> findOrdersByMinAmount(long minAmount) {
-        // TODO
+        if (minAmount < 0) {
+            throw new IllegalArgumentException(
+                "minAmount must not be negative"
+            );
+        }
+
+        return orders.stream()
+                .filter(order ->
+                    Math.multiplyExact(
+                        (long) order.quantity(),
+                        order.unitPrice()
+                    ) >= minAmount
+                )
+                .sorted(
+                    Comparator.comparingLong(
+                        (Order order) -> Math.multiplyExact(
+                            (long) order.quantity(),
+                            order.unitPrice()
+                        )
+                    )
+                    .reversed()
+                    .thenComparing(Order::orderId)
+                )
+                .toList();
     }
 }
